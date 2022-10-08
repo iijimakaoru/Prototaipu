@@ -36,7 +36,7 @@ void FeaverPoint::Draw()
 	DrawBox(transform.x - transform.width / 2, transform.y - transform.height / 2,
 		transform.x + transform.width / 2, transform.y + transform.height / 2,
 		GetColor(0, 255, 255), true);
-	DrawFormatString(0, 0, GetColor(255, 255, 255), "%f", transform.height);
+	//DrawFormatString(0, 0, GetColor(255, 255, 255), "%f", transform.height);
 }
 
 void FeaverPoint::Dead()

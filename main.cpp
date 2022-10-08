@@ -113,6 +113,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		Feaver
 	};
 
+	float feaverTime = 0;
+
 	Mode mode = Mode::Normal;
 
 	// 最新のキーボード情報用
@@ -153,13 +155,21 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			if (feaverCount >= 3)
 			{
 				feaverCount = 0;
+				feaverTime = 60 * 6;
 				mode = Mode::Feaver;
 			}
 		}
 		else if (mode == Mode::Feaver)
 		{
+			feaverTime--;
 			leftPoint->FeaverUpdate();
 			rightPoint->FeaverUpdate();
+			if (feaverTime <= 0)
+			{
+				leftPoint->Pop();
+				rightPoint->Pop();
+				mode = Mode::Normal;
+			}
 		}
 
 		feaverPoint->Update();
@@ -170,7 +180,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		rightPoint->Draw();
 		feaverPoint->Draw();
 		player->Draw();
-		//DrawFormatString(0, 0, GetColor(255, 255, 255), "%d", feaverPopCount);
+		DrawFormatString(0, 0, GetColor(255, 255, 255), "%f", feaverTime);
 
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面
