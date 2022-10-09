@@ -2,6 +2,7 @@
 #include "main.h"
 #include "Stage.h"
 #include "Struct.h"
+#include "Input.h"
 
 class Player
 {
@@ -12,7 +13,7 @@ public:
 		RIGHT
 	};
 	void Init(Stage& stage);
-	void Update(Stage& stage);
+	void Update(Stage& stage, Input& input);
 	void Draw();
 	Transform GetTransform() { return transform; }
 	bool GetIsChange() { return isChange; }

@@ -8,7 +8,7 @@ void Player::Init(Stage& stage)
 	isChange = false;
 }
 
-void Player::Update(Stage& stage)
+void Player::Update(Stage& stage, Input& input)
 {
 	if (!isChange)
 	{
@@ -41,7 +41,7 @@ void Player::Update(Stage& stage)
 		}
 	}
 
-	if (CheckHitKey(KEY_INPUT_SPACE))
+	if (input.isTriger(KEY_INPUT_SPACE))
 	{
 		isChange = true;
 	}
@@ -72,4 +72,5 @@ void Player::Draw()
 	DrawBox(transform.x - transform.width / 2, transform.y - transform.height / 2,
 		transform.x + transform.width / 2, transform.y + transform.height / 2,
 		GetColor(200, 200, 200), true);
+	DrawFormatString(0, 0, GetColor(255, 255, 255), "%d", isChange);
 }

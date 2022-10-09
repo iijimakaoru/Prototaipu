@@ -4,6 +4,7 @@
 #include "Point.h"
 #include "FeaverPoint.h"
 #include "Struct.h"
+#include "Input.h"
 
 void AllCollision(Player& player, Point& leftPoint, Point& rightPoint, int& feaverPopCount,
 	FeaverPoint& feaverPoint, int& feaverCount)
@@ -117,70 +118,129 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	Mode mode = Mode::Normal;
 
-	// 最新のキーボード情報用
-	char keys[256] = { 0 };
+	enum class Scene
+	{
+		Title,
+		Game,
+		Result
+	};
 
-	// 1ループ(フレーム)前のキーボード情報
-	char oldkeys[256] = { 0 };
+	Scene scene = Scene::Title;
+
+	float gameTimer = 0;
+
+	std::unique_ptr<Input> input;
+	input = std::make_unique<Input>();
+	input->Init();
+
+	//// 最新のキーボード情報用
+	//char keys[256] = { 0 };
+
+	//// 1ループ(フレーム)前のキーボード情報
+	//char oldkeys[256] = { 0 };
 
 	// ゲームループ
 	while (1)
 	{
 		// 最新のキーボード情報だったものは1フレーム前のキーボード情報として保存
+		input->KeyInit();
 		// 最新のキーボード情報を取得
-		GetHitKeyStateAll(keys);
+		//GetHitKeyStateAll(keys);
 
 		// 画面クリア
 		ClearDrawScreen();
 		//---------  ここからプログラムを記述  ----------//
 
 		// 更新処理
-		player->Update(*stage);
-		AllCollision(*player, *leftPoint, *rightPoint, feaverPopCount, *feaverPoint, feaverCount);
-		if (mode == Mode::Normal)
+		if (scene == Scene::Title)
 		{
-			if (feaverPopCount >= 3)
+			player->Init(*stage);
+			feaverTime = 0;
+			feaverPopCount = 0;
+			feaverPoint->Init();
+			gameTimer = 60 * 30;
+			mode = Mode::Normal;
+			if (input->isTriger(KEY_INPUT_SPACE))
 			{
-				if (player->Right())
-				{
-					feaverPoint->Pop(stage->GetLeftX());
-				}
-				if (player->Left())
-				{
-					feaverPoint->Pop(stage->GetRightX());
-				}
-				feaverPopCount = 0;
-			}
-
-			if (feaverCount >= 3)
-			{
-				feaverCount = 0;
-				feaverTime = 60 * 6;
-				mode = Mode::Feaver;
+				scene = Scene::Game;
 			}
 		}
-		else if (mode == Mode::Feaver)
+		else if (scene == Scene::Game)
 		{
-			feaverTime--;
-			leftPoint->FeaverUpdate();
-			rightPoint->FeaverUpdate();
-			if (feaverTime <= 0)
+			if (--gameTimer <= 0)
 			{
-				leftPoint->Pop();
-				rightPoint->Pop();
-				mode = Mode::Normal;
+				scene = Scene::Result;
+			}
+			player->Update(*stage, *input);
+			AllCollision(*player, *leftPoint, *rightPoint, feaverPopCount, *feaverPoint, feaverCount);
+			if (mode == Mode::Normal)
+			{
+				if (feaverPopCount >= 3)
+				{
+					if (player->Right())
+					{
+						feaverPoint->Pop(stage->GetLeftX());
+					}
+					if (player->Left())
+					{
+						feaverPoint->Pop(stage->GetRightX());
+					}
+					feaverPopCount = 0;
+				}
+
+				if (feaverCount >= 3)
+				{
+					feaverCount = 0;
+					feaverTime = 60 * 6;
+					mode = Mode::Feaver;
+				}
+			}
+			else if (mode == Mode::Feaver)
+			{
+				feaverTime--;
+				leftPoint->FeaverUpdate();
+				rightPoint->FeaverUpdate();
+				if (feaverTime <= 0)
+				{
+					leftPoint->Pop();
+					rightPoint->Pop();
+					mode = Mode::Normal;
+				}
+			}
+
+			feaverPoint->Update();
+		}
+		else if (scene == Scene::Result)
+		{
+			if (input->isTriger(KEY_INPUT_SPACE))
+			{
+				scene = Scene::Title;
 			}
 		}
-
-		feaverPoint->Update();
+		else
+		{
+			break;
+		}
 
 		// 描画処理
-		stage->Draw();
-		leftPoint->Draw();
-		rightPoint->Draw();
-		feaverPoint->Draw();
-		player->Draw();
-		DrawFormatString(0, 0, GetColor(255, 255, 255), "%f", feaverTime);
+		if (scene == Scene::Title)
+		{
+			DrawString(100, 100, "タイトル", GetColor(255, 255, 255), true);
+		}
+		else if (scene == Scene::Game)
+		{
+			stage->Draw();
+			leftPoint->Draw();
+			rightPoint->Draw();
+			feaverPoint->Draw();
+			player->Draw();
+		}
+		else if (scene == Scene::Result)
+		{
+			DrawString(100, 100, "リザルト", GetColor(255, 255, 255), true);
+		}
+		DrawFormatString(0, 0, GetColor(255, 255, 255), "ゲーム時間:%f", gameTimer);
+		DrawFormatString(0, 20, GetColor(255, 255, 255), "フィーバー時間:%f", feaverTime);
 
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面
