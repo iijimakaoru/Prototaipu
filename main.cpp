@@ -117,6 +117,15 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	Mode mode = Mode::Normal;
 
+	enum class Scene
+	{
+		Title,
+		Game,
+		Result
+	};
+
+	Scene scene = Scene::Title;
+
 	// 最新のキーボード情報用
 	char keys[256] = { 0 };
 
@@ -135,44 +144,59 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//---------  ここからプログラムを記述  ----------//
 
 		// 更新処理
-		player->Update(*stage);
-		AllCollision(*player, *leftPoint, *rightPoint, feaverPopCount, *feaverPoint, feaverCount);
-		if (mode == Mode::Normal)
+		if (scene == Scene::Title)
 		{
-			if (feaverPopCount >= 3)
+
+		}
+		else if (scene == Scene::Game)
+		{
+			player->Update(*stage);
+			AllCollision(*player, *leftPoint, *rightPoint, feaverPopCount, *feaverPoint, feaverCount);
+			if (mode == Mode::Normal)
 			{
-				if (player->Right())
+				if (feaverPopCount >= 3)
 				{
-					feaverPoint->Pop(stage->GetLeftX());
+					if (player->Right())
+					{
+						feaverPoint->Pop(stage->GetLeftX());
+					}
+					if (player->Left())
+					{
+						feaverPoint->Pop(stage->GetRightX());
+					}
+					feaverPopCount = 0;
 				}
-				if (player->Left())
+
+				if (feaverCount >= 3)
 				{
-					feaverPoint->Pop(stage->GetRightX());
+					feaverCount = 0;
+					feaverTime = 60 * 6;
+					mode = Mode::Feaver;
 				}
-				feaverPopCount = 0;
+			}
+			else if (mode == Mode::Feaver)
+			{
+				feaverTime--;
+				leftPoint->FeaverUpdate();
+				rightPoint->FeaverUpdate();
+				if (feaverTime <= 0)
+				{
+					leftPoint->Pop();
+					rightPoint->Pop();
+					mode = Mode::Normal;
+				}
 			}
 
-			if (feaverCount >= 3)
-			{
-				feaverCount = 0;
-				feaverTime = 60 * 6;
-				mode = Mode::Feaver;
-			}
+			feaverPoint->Update();
 		}
-		else if (mode == Mode::Feaver)
+		else if (scene == Scene::Result)
 		{
-			feaverTime--;
-			leftPoint->FeaverUpdate();
-			rightPoint->FeaverUpdate();
-			if (feaverTime <= 0)
-			{
-				leftPoint->Pop();
-				rightPoint->Pop();
-				mode = Mode::Normal;
-			}
-		}
 
-		feaverPoint->Update();
+		}
+		else
+		{
+			break;
+		}
 
 		// 描画処理
 		stage->Draw();
