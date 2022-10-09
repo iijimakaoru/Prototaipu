@@ -4,6 +4,7 @@
 #include "Point.h"
 #include "FeaverPoint.h"
 #include "Struct.h"
+#include "Input.h"
 
 void AllCollision(Player& player, Point& leftPoint, Point& rightPoint, int& feaverPopCount,
 	FeaverPoint& feaverPoint, int& feaverCount)
@@ -126,18 +127,25 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	Scene scene = Scene::Title;
 
-	// 最新のキーボード情報用
-	char keys[256] = { 0 };
+	float gameTimer = 0;
 
-	// 1ループ(フレーム)前のキーボード情報
-	char oldkeys[256] = { 0 };
+	std::unique_ptr<Input> input;
+	input = std::make_unique<Input>();
+	input->Init();
+
+	//// 最新のキーボード情報用
+	//char keys[256] = { 0 };
+
+	//// 1ループ(フレーム)前のキーボード情報
+	//char oldkeys[256] = { 0 };
 
 	// ゲームループ
 	while (1)
 	{
 		// 最新のキーボード情報だったものは1フレーム前のキーボード情報として保存
+		input->KeyInit();
 		// 最新のキーボード情報を取得
-		GetHitKeyStateAll(keys);
+		//GetHitKeyStateAll(keys);
 
 		// 画面クリア
 		ClearDrawScreen();
@@ -146,11 +154,24 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		// 更新処理
 		if (scene == Scene::Title)
 		{
-
+			player->Init(*stage);
+			feaverTime = 0;
+			feaverPopCount = 0;
+			feaverPoint->Init();
+			gameTimer = 60 * 30;
+			mode = Mode::Normal;
+			if (input->isTriger(KEY_INPUT_SPACE))
+			{
+				scene = Scene::Game;
+			}
 		}
 		else if (scene == Scene::Game)
 		{
-			player->Update(*stage);
+			if (--gameTimer <= 0)
+			{
+				scene = Scene::Result;
+			}
+			player->Update(*stage, *input);
 			AllCollision(*player, *leftPoint, *rightPoint, feaverPopCount, *feaverPoint, feaverCount);
 			if (mode == Mode::Normal)
 			{
@@ -191,7 +212,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		}
 		else if (scene == Scene::Result)
 		{
-
+			if (input->isTriger(KEY_INPUT_SPACE))
+			{
+				scene = Scene::Title;
+			}
 		}
 		else
 		{
@@ -199,12 +223,24 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		}
 
 		// 描画処理
-		stage->Draw();
-		leftPoint->Draw();
-		rightPoint->Draw();
-		feaverPoint->Draw();
-		player->Draw();
-		DrawFormatString(0, 0, GetColor(255, 255, 255), "%f", feaverTime);
+		if (scene == Scene::Title)
+		{
+			DrawString(100, 100, "タイトル", GetColor(255, 255, 255), true);
+		}
+		else if (scene == Scene::Game)
+		{
+			stage->Draw();
+			leftPoint->Draw();
+			rightPoint->Draw();
+			feaverPoint->Draw();
+			player->Draw();
+		}
+		else if (scene == Scene::Result)
+		{
+			DrawString(100, 100, "リザルト", GetColor(255, 255, 255), true);
+		}
+		DrawFormatString(0, 0, GetColor(255, 255, 255), "ゲーム時間:%f", gameTimer);
+		DrawFormatString(0, 20, GetColor(255, 255, 255), "フィーバー時間:%f", feaverTime);
 
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面
