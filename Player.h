@@ -34,5 +34,6 @@ private:
 	int speed;
 	int speedLevel;
 	int levelupCount;
+	bool isSpeedUP = false;
 };
 

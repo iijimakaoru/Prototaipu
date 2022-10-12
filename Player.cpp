@@ -3,12 +3,13 @@
 void Player::Init(Stage& stage)
 {
 	transform.x = stage.GetLeftX() + transform.width / 2;
-	transform.y = 0;
+	transform.y = transform.height / 2 + 1;
 	transform.width = transform.height = 20;
 	isChange = false;
 	speed = 5;
 	speedLevel = 1;
 	levelupCount = 0;
+	isSpeedUP = false;
 }
 
 void Player::Update(Stage& stage, Input& input)
@@ -16,50 +17,48 @@ void Player::Update(Stage& stage, Input& input)
 	if (levelupCount >= 3 && speedLevel <= 3)
 	{
 		speedLevel++;
+		isSpeedUP = true;
 		levelupCount = 0;
 	}
 
-	if (speedLevel == 1)
+	if (isSpeedUP)
 	{
-		speed = 5;
-	}
-	else if (speedLevel == 2)
-	{
-		speed = 7;
-	}
-	else if (speedLevel == 3)
-	{
-		speed = 9;
+		if (speedLevel == 1)
+		{
+			speed = 5;
+			isSpeedUP = false;
+		}
+		else if (speedLevel == 2)
+		{
+			speed = 7;
+			isSpeedUP = false;
+		}
+		else if (speedLevel == 3)
+		{
+			speed = 9;
+			isSpeedUP = false;
+		}
 	}
 
 	if (!isChange)
 	{
-		if (vec == Vec::LEFT)
+		if (transform.y - transform.height / 2 <= 0 ||
+			transform.y + transform.height / 2 >= WIN_HEIGHT)
 		{
-			transform.y += speed;
-			if (transform.y - transform.height / 2 >= WIN_HEIGHT)
-			{
-				transform.y = -transform.height / 2;
-			}
+			speed *= -1;
 		}
-		if (vec == Vec::RIGHT)
-		{
-			transform.y -= speed;
-			if (transform.y + transform.height / 2 <= 0)
-			{
-				transform.y = WIN_HEIGHT + transform.height / 2;
-			}
-		}
+
+		transform.y += speed;
 	}
 	else
 	{
 		if (vec == Vec::LEFT)
 		{
-			transform.x += 40;
+			transform.x += 80;
 		}
 		if (vec == Vec::RIGHT)
 		{
-			transform.x -= 40;
+			transform.x -= 80;
 		}
 	}
 

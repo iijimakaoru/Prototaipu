@@ -13,5 +13,9 @@ public:
 private:
 	int leftX;
 	int rightX;
+	float sikiriRightX[2];
+	float sikiriRightY[2];
+	float sikiriLeftX[2];
+	float sikiriLeftY[2];
 };
 
