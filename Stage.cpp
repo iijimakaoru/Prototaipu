@@ -4,6 +4,12 @@ void Stage::Init()
 {
 	leftX = WIN_WIDTH / 4;
 	rightX = WIN_WIDTH * 3 / 4;
+	for (int i = 0; i < 2; i++)
+	{
+		sikiriRightX[i] = rightX;
+		sikiriLeftX[i] = leftX;
+	}
+	//sikiriRightY[0]
 }
 
 void Stage::Update()
