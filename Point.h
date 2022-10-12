@@ -6,6 +6,7 @@ class Point
 {
 public:
 	void Init(int posX);
+	void Update();
 	void Pop();
 	void FeaverUpdate();
 	void Draw();
@@ -13,5 +14,6 @@ public:
 
 private:
 	Transform transform;
+	int popPos;
 };
 

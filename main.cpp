@@ -174,6 +174,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				scene = Scene::Result;
 			}
 			player->Update(*stage, *input);
+
+			leftPoint->Update();
+			rightPoint->Update();
+
 			AllCollision(*player, *leftPoint, *rightPoint, feaverPopCount, *feaverPoint, feaverCount);
 			if (mode == Mode::Normal)
 			{
