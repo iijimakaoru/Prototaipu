@@ -5,9 +5,10 @@
 #include "FeaverPoint.h"
 #include "Struct.h"
 #include "Input.h"
+#include "PointManager.h"
 
 void AllCollision(Player& player, Point& leftPoint, Point& rightPoint, int& feaverPopCount,
-	FeaverPoint& feaverPoint, int& feaverCount)
+	FeaverPoint& feaverPoint, int& feaverCount, PointManager& pointManager)
 {
 	Transform posA, posB;
 
@@ -24,6 +25,7 @@ void AllCollision(Player& player, Point& leftPoint, Point& rightPoint, int& feav
 			feaverPopCount++;
 			player.AddLevelupCount();
 			leftPoint.Pop();
+			pointManager.OnCollisionRight(rightPoint);
 		}
 	}
 
@@ -39,6 +41,7 @@ void AllCollision(Player& player, Point& leftPoint, Point& rightPoint, int& feav
 			feaverPopCount++;
 			player.AddLevelupCount();
 			rightPoint.Pop();
+			pointManager.OnCollisionLeft(leftPoint);
 		}
 	}
 
@@ -107,6 +110,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	feaverPoint = std::make_unique<FeaverPoint>();
 	feaverPoint->Init();
 
+	std::unique_ptr<PointManager> pointManager;
+	pointManager = std::make_unique<PointManager>();
+	pointManager->Init();
+
+
 	int feaverPopCount = 0;
 	int feaverCount = 0;
 
@@ -129,11 +137,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	Scene scene = Scene::Title;
 
-	float gameTimer = 0;
-
 	std::unique_ptr<Input> input;
 	input = std::make_unique<Input>();
 	input->Init();
+
+	float gameTimer = 0;
 
 	//// 最新のキーボード情報用
 	//char keys[256] = { 0 };
@@ -177,8 +185,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 			leftPoint->Update();
 			rightPoint->Update();
+			pointManager->Update(*leftPoint,*rightPoint);
 
-			AllCollision(*player, *leftPoint, *rightPoint, feaverPopCount, *feaverPoint, feaverCount);
+			AllCollision(*player, *leftPoint, *rightPoint, feaverPopCount, *feaverPoint, feaverCount,*pointManager);
 			if (mode == Mode::Normal)
 			{
 				if (feaverPopCount >= 3)
@@ -235,6 +244,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			rightPoint->Draw();
 			feaverPoint->Draw();
 			player->Draw();
+			pointManager->Draw();
 		}
 		else if (scene == Scene::Result)
 		{
@@ -243,6 +253,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		DrawFormatString(0, 0, GetColor(255, 255, 255), "ゲーム時間:%f", gameTimer);
 		DrawFormatString(0, 20, GetColor(255, 255, 255), "フィーバー時間:%f", feaverTime);
 		DrawFormatString(0, 40, GetColor(255, 255, 255), "フィーバーカウント:%d", feaverCount);
+		DrawFormatString(0, 60, GetColor(255, 255, 255), "コンボ:%d", pointManager->GetCombo());
+		//DrawFormatString(0, 100, GetColor(255, 255, 255), "点数:%d", leftPoint->GetScore());
+		//DrawFormatString(0, 120, GetColor(255, 255, 255), "点数:%d", rightPoint->GetScore());
+
 
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面
