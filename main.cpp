@@ -42,7 +42,7 @@ void AllCollision(Player& player, Point& leftPoint, Point& rightPoint, int& feav
 		}
 	}
 
-	posB = feaverPoint.GetTransform();
+	/*posB = feaverPoint.GetTransform();
 
 	if (posA.x - posA.width / 2 <= posB.x + posB.width / 2 &&
 		posA.x + posA.width / 2 >= posB.x - posB.width / 2 &&
@@ -54,7 +54,7 @@ void AllCollision(Player& player, Point& leftPoint, Point& rightPoint, int& feav
 			feaverCount++;
 			feaverPoint.Dead();
 		}
-	}
+	}*/
 }
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
@@ -179,14 +179,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			{
 				if (feaverPopCount >= 3)
 				{
-					if (player->Right())
-					{
-						feaverPoint->Pop(stage->GetLeftX());
-					}
-					if (player->Left())
-					{
-						feaverPoint->Pop(stage->GetRightX());
-					}
+					feaverCount++;
 					feaverPopCount = 0;
 				}
 
@@ -206,6 +199,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				{
 					leftPoint->Pop();
 					rightPoint->Pop();
+					feaverCount = 0;
+					feaverPopCount = 0;
 					mode = Mode::Normal;
 				}
 			}
@@ -243,6 +238,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		}
 		DrawFormatString(0, 0, GetColor(255, 255, 255), "ゲーム時間:%f", gameTimer);
 		DrawFormatString(0, 20, GetColor(255, 255, 255), "フィーバー時間:%f", feaverTime);
+		DrawFormatString(0, 40, GetColor(255, 255, 255), "フィーバーカウント:%d", feaverCount);
 
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面

@@ -94,5 +94,5 @@ void Player::Draw()
 	DrawBox(transform.x - transform.width / 2, transform.y - transform.height / 2,
 		transform.x + transform.width / 2, transform.y + transform.height / 2,
 		GetColor(200, 200, 200), true);
-	DrawFormatString(0, 20, GetColor(255, 255, 255), "%d", levelupCount);
+	DrawFormatString(0, 60, GetColor(255, 255, 255), "%d", levelupCount);
 }
