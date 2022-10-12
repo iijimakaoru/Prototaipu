@@ -7,15 +7,37 @@ void Point::Init(int posX)
 	transform.width = 8;
 	transform.height = WIN_HEIGHT * 1 / 3;
 	popPos = 0;
+	popVec = 0;
 }
 
 void Point::Update()
 {
-	popPos = GetRand(2);
+	
 }
 
 void Point::Pop()
 {
+	// ‚Û‚Á‚ÕŒü‚«w’è
+	popVec = GetRand(1);
+	if (popVec == 1)
+	{
+		popPos++;
+	}
+	else if (popVec == 0)
+	{
+		popPos--;
+	}
+	// ˆê”Ôã‚Ìˆê”Ô‰º‚Ö
+	if (popPos < 0)
+	{
+		popPos = 2;
+	}
+	// ˆê”Ô‰º‚Ìˆê”Ôã‚Ö
+	if (popPos > 2)
+	{
+		popPos = 0;
+	}
+	// ‚Û‚Á‚ÕêŠw’è
 	switch (popPos)
 	{
 	case 0:
@@ -30,7 +52,7 @@ void Point::Pop()
 	default:
 		break;
 	}
-	//transform.y = GetRand(WIN_HEIGHT - transform.height) + transform.height / 2;
+
 	transform.height = WIN_HEIGHT * 1 / 3;
 }
 

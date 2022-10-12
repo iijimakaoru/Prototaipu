@@ -15,5 +15,6 @@ public:
 private:
 	Transform transform;
 	int popPos;
+	int popVec;
 };
 
