@@ -10,6 +10,7 @@ void Player::Init(Stage& stage)
 	speedLevel = 1;
 	levelupCount = 0;
 	isSpeedUP = false;
+	moveVec = 1;
 }
 
 void Player::Update(Stage& stage, Input& input)
@@ -45,10 +46,10 @@ void Player::Update(Stage& stage, Input& input)
 		if (transform.y - transform.height / 2 <= 0 ||
 			transform.y + transform.height / 2 >= WIN_HEIGHT)
 		{
-			speed *= -1;
+			moveVec *= -1;
 		}
 
-		transform.y += speed;
+		transform.y += speed * moveVec;
 	}
 	else
 	{
