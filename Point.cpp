@@ -6,7 +6,7 @@ void Point::Init(int posX)
 	transform.y = WIN_HEIGHT / 2;
 	transform.width = 8;
 	transform.height = WIN_HEIGHT * 1 / 3;
-	popPos = 0;
+	popPos = 1;
 	popVec = 0;
 }
 
