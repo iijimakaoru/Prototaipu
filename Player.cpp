@@ -6,15 +6,37 @@ void Player::Init(Stage& stage)
 	transform.y = 0;
 	transform.width = transform.height = 20;
 	isChange = false;
+	speed = 5;
+	speedLevel = 1;
+	levelupCount = 0;
 }
 
 void Player::Update(Stage& stage, Input& input)
 {
+	if (levelupCount >= 3 && speedLevel <= 3)
+	{
+		speedLevel++;
+		levelupCount = 0;
+	}
+
+	if (speedLevel == 1)
+	{
+		speed = 5;
+	}
+	else if (speedLevel == 2)
+	{
+		speed = 7;
+	}
+	else if (speedLevel == 3)
+	{
+		speed = 9;
+	}
+
 	if (!isChange)
 	{
 		if (vec == Vec::LEFT)
 		{
-			transform.y += 5;
+			transform.y += speed;
 			if (transform.y - transform.height / 2 >= WIN_HEIGHT)
 			{
 				transform.y = -transform.height / 2;
@@ -22,7 +44,7 @@ void Player::Update(Stage& stage, Input& input)
 		}
 		if (vec == Vec::RIGHT)
 		{
-			transform.y -= 5;
+			transform.y -= speed;
 			if (transform.y + transform.height / 2 <= 0)
 			{
 				transform.y = WIN_HEIGHT + transform.height / 2;
@@ -72,5 +94,5 @@ void Player::Draw()
 	DrawBox(transform.x - transform.width / 2, transform.y - transform.height / 2,
 		transform.x + transform.width / 2, transform.y + transform.height / 2,
 		GetColor(200, 200, 200), true);
-	DrawFormatString(0, 0, GetColor(255, 255, 255), "%d", isChange);
+	DrawFormatString(0, 20, GetColor(255, 255, 255), "%d", levelupCount);
 }

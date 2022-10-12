@@ -22,6 +22,7 @@ void AllCollision(Player& player, Point& leftPoint, Point& rightPoint, int& feav
 		if (player.GetIsChange())
 		{
 			feaverPopCount++;
+			player.AddLevelupCount();
 			leftPoint.Pop();
 		}
 	}
@@ -36,6 +37,7 @@ void AllCollision(Player& player, Point& leftPoint, Point& rightPoint, int& feav
 		if (player.GetIsChange())
 		{
 			feaverPopCount++;
+			player.AddLevelupCount();
 			rightPoint.Pop();
 		}
 	}
