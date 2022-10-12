@@ -3,15 +3,15 @@
 void Point::Init(int posX)
 {
 	transform.x = posX;
-	transform.y = GetRand(WIN_HEIGHT - transform.height) + transform.height / 2;
+	transform.y = WIN_HEIGHT / 2 + 1;
 	transform.width = 8;
-	transform.height = 150;
+	transform.height = WIN_HEIGHT * 1 / 3;
 }
 
 void Point::Pop()
 {
 	transform.y = GetRand(WIN_HEIGHT - transform.height) + transform.height / 2;
-	transform.height = 150;
+	transform.height = WIN_HEIGHT * 1 / 3;
 }
 
 void Point::FeaverUpdate()

@@ -33,6 +33,7 @@ private:
 	Vec vec = Vec::LEFT;
 	int speed;
 	int speedLevel;
+	int moveVec;
 	int levelupCount;
 	bool isSpeedUP = false;
 };
