@@ -11,6 +11,7 @@ void Player::Init(Stage& stage)
 	levelupCount = 0;
 	isSpeedUP = false;
 	moveVec = 1;
+	levelDownCount = 0;
 }
 
 void Player::Update(Stage& stage, Input& input)
@@ -18,27 +19,28 @@ void Player::Update(Stage& stage, Input& input)
 	if (levelupCount >= 3 && speedLevel <= 3)
 	{
 		speedLevel++;
-		isSpeedUP = true;
+		levelupCount = 0;
+		levelDownCount = 0;
+	}
+
+	if (levelDownCount >= 3 && speedLevel > 1)
+	{
+		speedLevel--;
+		levelDownCount = 0;
 		levelupCount = 0;
 	}
 
-	if (isSpeedUP)
+	if (speedLevel == 1)
 	{
-		if (speedLevel == 1)
-		{
-			speed = 5;
-			isSpeedUP = false;
-		}
-		else if (speedLevel == 2)
-		{
-			speed = 7;
-			isSpeedUP = false;
-		}
-		else if (speedLevel == 3)
-		{
-			speed = 9;
-			isSpeedUP = false;
-		}
+		speed = 5;
+	}
+	else if (speedLevel == 2)
+	{
+		speed = 7;
+	}
+	else if (speedLevel == 3)
+	{
+		speed = 9;
 	}
 
 	if (!isChange)
@@ -50,6 +52,8 @@ void Player::Update(Stage& stage, Input& input)
 		}
 
 		transform.y += speed * moveVec;
+
+		isAddCount = false;
 	}
 	else
 	{
@@ -66,6 +70,7 @@ void Player::Update(Stage& stage, Input& input)
 	if (input.isTriger(KEY_INPUT_SPACE))
 	{
 		isChange = true;
+		isAddCount = true;
 	}
 
 	if (transform.x - transform.width / 2 <= stage.GetLeftX())
@@ -95,4 +100,6 @@ void Player::Draw()
 		transform.x + transform.width / 2, transform.y + transform.height / 2,
 		GetColor(200, 200, 200), true);
 	DrawFormatString(0, 60, GetColor(255, 255, 255), "%d", levelupCount);
+	DrawFormatString(0, 80, GetColor(255, 255, 255), "%d", levelDownCount);
+	DrawFormatString(0, 100, GetColor(255, 255, 255), "%d", speedLevel);
 }
