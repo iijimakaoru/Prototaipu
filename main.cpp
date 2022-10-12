@@ -6,39 +6,44 @@
 #include "Struct.h"
 #include "Input.h"
 
+bool BoxCollision(Transform& posA, Transform& posB)
+{
+	return posA.x - posA.width / 2 <= posB.x + posB.width / 2 &&
+		posA.x + posA.width / 2 >= posB.x - posB.width / 2 &&
+		posA.y + posA.height / 2 >= posB.y - posB.height / 2 &&
+		posA.y - posA.height / 2 <= posB.y + posB.height / 2;
+}
+
 void AllCollision(Player& player, Point& leftPoint, Point& rightPoint, int& feaverPopCount,
 	FeaverPoint& feaverPoint, int& feaverCount)
 {
-	Transform posA, posB;
+	Transform posA, posB, posC;
 
 	posA = player.GetTransform();
 	posB = leftPoint.GetTransform();
-
-	if (posA.x - posA.width / 2 <= posB.x + posB.width / 2 &&
-		posA.x + posA.width / 2 >= posB.x - posB.width / 2 &&
-		posA.y + posA.height / 2 >= posB.y - posB.height / 2 &&
-		posA.y - posA.height / 2 <= posB.y + posB.height / 2)
+	posC = rightPoint.GetTransform();
+	if (player.GetIsChange())
 	{
-		if (player.GetIsChange())
+		if (BoxCollision(posA, posB) && player.IsAddCount())
 		{
 			feaverPopCount++;
 			player.AddLevelupCount();
 			leftPoint.Pop();
+			player.ChangeIsAddCount();
 		}
-	}
 
-	posB = rightPoint.GetTransform();
-
-	if (posA.x - posA.width / 2 <= posB.x + posB.width / 2 &&
-		posA.x + posA.width / 2 >= posB.x - posB.width / 2 &&
-		posA.y + posA.height / 2 >= posB.y - posB.height / 2 &&
-		posA.y - posA.height / 2 <= posB.y + posB.height / 2)
-	{
-		if (player.GetIsChange())
+		if (BoxCollision(posA, posC) && player.IsAddCount())
 		{
 			feaverPopCount++;
 			player.AddLevelupCount();
 			rightPoint.Pop();
+			player.ChangeIsAddCount();
+		}
+
+		if (!BoxCollision(posA, posB) && !BoxCollision(posA, posC) && player.IsAddCount())
+		{
+			player.AddLevelDownCount();
+			player.ChangeIsAddCount();
 		}
 	}
 
@@ -135,19 +140,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	input = std::make_unique<Input>();
 	input->Init();
 
-	//// 最新のキーボード情報用
-	//char keys[256] = { 0 };
-
-	//// 1ループ(フレーム)前のキーボード情報
-	//char oldkeys[256] = { 0 };
-
 	// ゲームループ
 	while (1)
 	{
-		// 最新のキーボード情報だったものは1フレーム前のキーボード情報として保存
 		input->KeyInit();
-		// 最新のキーボード情報を取得
-		//GetHitKeyStateAll(keys);
 
 		// 画面クリア
 		ClearDrawScreen();

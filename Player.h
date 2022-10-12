@@ -27,6 +27,18 @@ public:
 		}
 	}
 
+	void AddLevelDownCount()
+	{
+		if (speedLevel > 1)
+		{
+			levelDownCount++;
+		}
+	}
+
+	bool IsAddCount() { return isAddCount; }
+
+	void ChangeIsAddCount() { isAddCount = false; }
+
 private:
 	Transform transform;
 	bool isChange = false;
@@ -36,5 +48,7 @@ private:
 	int moveVec;
 	int levelupCount;
 	bool isSpeedUP = false;
+	int levelDownCount;
+	bool isAddCount;
 };
 
