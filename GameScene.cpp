@@ -23,6 +23,7 @@ void GameScene::Update()
 {
 	input->KeyInit();
 
+	// “G‚ğÁ‚·ˆ—
 	enemys.remove_if([](std::unique_ptr<Enemy>& enemy) {return enemy->IsDead(); });
 
 	if (scene == Scene::Title)
@@ -57,6 +58,7 @@ void GameScene::Update()
 #pragma region ƒm[ƒ}ƒ‹
 		if (mode == Mode::Normal)
 		{
+			// “G‚Ì“®‚«
 			for (std::unique_ptr<Enemy>& enemy : enemys)
 			{
 				enemy->Update();
@@ -136,6 +138,7 @@ void GameScene::Draw()
 		feaverPoint->Draw();
 		player->Draw();
 		pointManager->Draw();
+		// “G‚Ì•`‰æ
 		for (std::unique_ptr<Enemy>& enemy : enemys)
 		{
 			enemy->Draw();
@@ -223,7 +226,7 @@ void GameScene::AllCollision()
 			player->ChangeIsAddCount();
 			pointManager->OnCollisionFailure();
 		}
-
+		// “G‚Ì“–‚½‚è”»’è
 		for (std::unique_ptr<Enemy>& enemy : enemys)
 		{
 			posE = enemy->GetTrans();

@@ -10,7 +10,9 @@ public:
 	void Update();
 	void Draw();
 	void Pop();
+	// Ž€–Sƒtƒ‰ƒO”»’è
 	bool IsDead() const { return isDead; }
+	// “–‚½‚Á‚½‚Æ‚«
 	void OnCollision() { isDead = true; }
 	Transform GetTrans() { return transform; }
 
