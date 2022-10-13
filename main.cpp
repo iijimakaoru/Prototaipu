@@ -32,9 +32,7 @@ void AllCollision(Player& player, Point& leftPoint, Point& rightPoint, int& feav
 			leftPoint.Pop();
 
 			player.ChangeIsAddCount();
-
-			pointManager.OnCollisionRight(rightPoint);
-
+			pointManager.OnCollisionLeft(leftPoint);
 		}
 
 		if (BoxCollision(posA, posC) && player.IsAddCount())
@@ -44,15 +42,13 @@ void AllCollision(Player& player, Point& leftPoint, Point& rightPoint, int& feav
 			rightPoint.Pop();
 
 			player.ChangeIsAddCount();
+			pointManager.OnCollisionRight(rightPoint);
 		}
 
 		if (!BoxCollision(posA, posB) && !BoxCollision(posA, posC) && player.IsAddCount())
 		{
 			player.AddLevelDownCount();
 			player.ChangeIsAddCount();
-
-			pointManager.OnCollisionLeft(leftPoint);
-
 		}
 	}
 
@@ -151,9 +147,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	std::unique_ptr<Input> input;
 	input = std::make_unique<Input>();
 	input->Init();
-
-
-
 	float gameTimer = 0;
 
 	//// 最新のキーボード情報用
@@ -267,7 +260,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		DrawFormatString(0, 60, GetColor(255, 255, 255), "コンボ:%d", pointManager->GetCombo());
 		//DrawFormatString(0, 100, GetColor(255, 255, 255), "点数:%d", leftPoint->GetScore());
 		//DrawFormatString(0, 120, GetColor(255, 255, 255), "点数:%d", rightPoint->GetScore());
-
 
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面
