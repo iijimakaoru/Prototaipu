@@ -31,6 +31,8 @@ void GameScene::Update()
 		feaverPoint->Init();
 		gameTimer = 60 * 30;
 		mode = Mode::Normal;
+		leftPoint->Pop();
+		rightPoint->Pop();
 		if (input->isTriger(KEY_INPUT_SPACE))
 		{
 			scene = Scene::Game;
