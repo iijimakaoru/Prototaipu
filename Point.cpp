@@ -68,3 +68,9 @@ void Point::Draw()
 		transform.x + transform.width / 2, transform.y + transform.height / 2,
 		GetColor(255, 0, 0), true);
 }
+
+//“¾“_‰ÁŽZ
+void Point::OnCollisionScore(int combo) 
+{
+	score = combo * 10 + scoreNum;
+}

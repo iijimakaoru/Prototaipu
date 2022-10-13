@@ -11,10 +11,16 @@ public:
 	void FeaverUpdate();
 	void Draw();
 	Transform GetTransform() { return transform; }
+	int GetScore() { return score; }
+
+	void OnCollisionScore(int combo);
 
 private:
 	Transform transform;
 	int popPos;
 	int popVec;
+	//“¾“_
+	const int scoreNum = 100;
+	int score;
 };
 
