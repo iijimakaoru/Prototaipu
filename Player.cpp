@@ -95,6 +95,15 @@ void Player::Update(Stage& stage, Input& input)
 		}
 		isChange = false;
 	}
+
+	if (transform.y - transform.height / 2 <= 0)
+	{
+		transform.y = transform.height / 2;
+	}
+	else if (transform.y + transform.height / 2 >= WIN_HEIGHT)
+	{
+		transform.y = WIN_HEIGHT - transform.height / 2;
+	}
 #pragma endregion
 }
 
