@@ -6,6 +6,8 @@ void FeaverPoint::Init()
 	transform.width = 8;
 	transform.height = 100;
 	isDead = false;
+	speed = 4;
+	moveVec = 1;
 }
 
 void FeaverPoint::Pop(int posX)
@@ -18,19 +20,28 @@ void FeaverPoint::Pop(int posX)
 
 void FeaverPoint::Update()
 {
-	transform.y -= 2;
-	if (transform.y - transform.height / 2 >= WIN_HEIGHT)
+	if (transform.y + transform.height / 2 >= WIN_HEIGHT ||
+		transform.y - transform.height / 2 <= 0)
 	{
-		transform.y = -transform.height / 2;
+		moveVec *= -1;
 	}
-	else if (transform.y + transform.height / 2 <= 0)
+
+	if (transform.y - transform.height / 2 <= 0)
 	{
-		transform.y = WIN_HEIGHT + transform.height / 2;
+		transform.y = transform.height / 2;
 	}
+
+	if (transform.y + transform.height / 2 >= WIN_HEIGHT)
+	{
+		transform.y = WIN_HEIGHT - transform.height / 2;
+	}
+
 	if (transform.height > 0)
 	{
 		transform.height -= 0.5f;
 	}
+
+	transform.y += speed * moveVec;
 }
 
 void FeaverPoint::Draw()
@@ -41,7 +52,6 @@ void FeaverPoint::Draw()
 			transform.x + transform.width / 2, transform.y + transform.height / 2,
 			GetColor(0, 255, 255), true);
 	}
-	//DrawFormatString(0, 0, GetColor(255, 255, 255), "%f", transform.height);
 }
 
 void FeaverPoint::Dead()

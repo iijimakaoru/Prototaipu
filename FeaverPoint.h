@@ -16,5 +16,7 @@ public:
 private:
 	Transform transform;
 	bool isDead;
+	float speed;
+	int moveVec;
 };
 
