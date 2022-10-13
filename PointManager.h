@@ -18,6 +18,7 @@ public:
 
 	void OnCollisionLeft(Point& leftPoint);
 	void OnCollisionRight(Point& rightPoint);
+	void OnCollisionFailure();
 
 private:
 

@@ -70,3 +70,16 @@ void PointManager::OnCollisionRight(Point& rightPoint)
 	rightScore = rightPoint.GetScore();
 	totalScore_ += rightScore;
 }
+
+void PointManager::OnCollisionFailure()
+{
+	if (combo_ <= 0)
+	{
+		combo_ = 0;
+	}
+	else
+	{
+		combo_ = 0;
+	}
+	
+}

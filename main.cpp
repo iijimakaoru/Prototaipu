@@ -49,6 +49,7 @@ void AllCollision(Player& player, Point& leftPoint, Point& rightPoint, int& feav
 		{
 			player.AddLevelDownCount();
 			player.ChangeIsAddCount();
+			pointManager.OnCollisionFailure();
 		}
 	}
 
