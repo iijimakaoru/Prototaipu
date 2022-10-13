@@ -55,20 +55,20 @@ void PointManager::SetTotalScore(int totalScore)
 
 void PointManager::OnCollisionLeft(Point& leftPoint)
 {
-	combo_++;
 	int leftScore;
 	leftPoint.OnCollisionScore(combo_);
 	leftScore = leftPoint.GetScore();
 	totalScore_ += leftScore;
+	combo_++;
 }
 
 void PointManager::OnCollisionRight(Point& rightPoint)
 {
-	combo_++;
 	int rightScore;
 	rightPoint.OnCollisionScore(combo_);
 	rightScore = rightPoint.GetScore();
 	totalScore_ += rightScore;
+	combo_++;
 }
 
 void PointManager::OnCollisionFailure()
