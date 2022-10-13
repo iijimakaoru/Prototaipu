@@ -161,12 +161,16 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		// 更新処理
 		if (scene == Scene::Title)
 		{
+#pragma region 初期化
 			player->Init(*stage);
 			feaverTime = 0;
 			feaverPopCount = 0;
 			feaverPoint->Init();
 			gameTimer = 60 * 30;
 			mode = Mode::Normal;
+			leftPoint->Pop();
+			rightPoint->Pop();
+#pragma endregion
 			if (input->isTriger(KEY_INPUT_SPACE))
 			{
 				scene = Scene::Game;
@@ -179,12 +183,15 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				scene = Scene::Result;
 			}
 			player->Update(*stage, *input);
-
+#pragma region ポイントアップデート
 			leftPoint->Update();
 			rightPoint->Update();
-			pointManager->Update(*leftPoint,*rightPoint);
-
-			AllCollision(*player, *leftPoint, *rightPoint, feaverPopCount, *feaverPoint, feaverCount,*pointManager);
+			pointManager->Update(*leftPoint, *rightPoint);
+#pragma endregion
+			// 当たり判定呼び出し
+			AllCollision(*player, *leftPoint, *rightPoint, feaverPopCount,
+				*feaverPoint, feaverCount,*pointManager);
+#pragma region ノーマル
 			if (mode == Mode::Normal)
 			{
 				if (feaverPopCount >= 3)
@@ -200,6 +207,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					mode = Mode::Feaver;
 				}
 			}
+#pragma endregion
+#pragma region フィーバー
 			else if (mode == Mode::Feaver)
 			{
 				feaverTime--;
@@ -214,6 +223,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					mode = Mode::Normal;
 				}
 			}
+#pragma endregion
 
 			feaverPoint->Update();
 		}
