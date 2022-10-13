@@ -16,8 +16,8 @@ public:
 	void Initialize();
 	void Update();
 	void Draw();
-	void AllCollision(Player& player, Point& leftPoint, Point& rightPoint, int& feaverPopCount,
-		FeaverPoint& feaverPoint, int& feaverCount, PointManager& pointManager);
+	void AllCollision(Player& player, Point& leftPoint, Point& rightPoint, int& feaverChargeCount,
+		FeaverPoint& feaverPoint, PointManager& pointManager, int& itemPopCount);
 	bool BoxCollision(Transform& posA, Transform& posB);
 
 private:
@@ -47,9 +47,11 @@ private:
 	Mode mode = Mode::Normal;
 	Scene scene = Scene::Title;
 
-	int feaverPopCount = 0;
+	int feaverChargeCount = 0;
 	int feaverCount = 0;
 	float feaverTime = 0;
 	float gameTimer = 0;
+
+	int itemPopCount = 0;
 };
 

@@ -5,6 +5,7 @@ void FeaverPoint::Init()
 	transform.x = 114514;
 	transform.width = 8;
 	transform.height = 100;
+	isDead = false;
 }
 
 void FeaverPoint::Pop(int posX)
@@ -12,6 +13,7 @@ void FeaverPoint::Pop(int posX)
 	transform.x = posX;
 	transform.y = GetRand(WIN_HEIGHT - transform.height) + transform.height / 2;
 	transform.height = 100;
+	isDead = true;
 }
 
 void FeaverPoint::Update()
@@ -33,14 +35,16 @@ void FeaverPoint::Update()
 
 void FeaverPoint::Draw()
 {
-	DrawBox(transform.x - transform.width / 2, transform.y - transform.height / 2,
-		transform.x + transform.width / 2, transform.y + transform.height / 2,
-		GetColor(0, 255, 255), true);
+	if (isDead)
+	{
+		DrawBox(transform.x - transform.width / 2, transform.y - transform.height / 2,
+			transform.x + transform.width / 2, transform.y + transform.height / 2,
+			GetColor(0, 255, 255), true);
+	}
 	//DrawFormatString(0, 0, GetColor(255, 255, 255), "%f", transform.height);
 }
 
 void FeaverPoint::Dead()
 {
-	transform.x = -114514;
-	transform.y = -114514;
+	isDead = false;
 }

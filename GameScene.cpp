@@ -27,7 +27,7 @@ void GameScene::Update()
 	{
 		player->Init(*stage);
 		feaverTime = 0;
-		feaverPopCount = 0;
+		feaverChargeCount = 0;
 		feaverPoint->Init();
 		gameTimer = 60 * 30;
 		mode = Mode::Normal;
@@ -43,17 +43,21 @@ void GameScene::Update()
 			scene = Scene::Result;
 		}
 		player->Update(*stage, *input);
+#pragma region ポイントアップデート
 		leftPoint->Update();
 		rightPoint->Update();
 		pointManager->Update(*leftPoint, *rightPoint);
-
-		AllCollision(*player, *leftPoint, *rightPoint, feaverPopCount, *feaverPoint, feaverCount, *pointManager);
+#pragma endregion
+		// 当たり判定呼び出し
+		AllCollision(*player, *leftPoint, *rightPoint, feaverChargeCount,
+			*feaverPoint, *pointManager, itemPopCount);
+#pragma region ノーマル
 		if (mode == Mode::Normal)
 		{
-			if (feaverPopCount >= 3)
+			if (feaverChargeCount >= 3)
 			{
 				feaverCount++;
-				feaverPopCount = 0;
+				feaverChargeCount = 0;
 			}
 
 			if (feaverCount >= 3)
@@ -62,7 +66,27 @@ void GameScene::Update()
 				feaverTime = 60 * 6;
 				mode = Mode::Feaver;
 			}
+
+			if (itemPopCount >= 3)
+			{
+				int popVec = GetRand(1);
+				//feaverPoint->IsDeadTrue();
+				switch (popVec)
+				{
+				case 0:
+					feaverPoint->Pop(stage->GetLeftX());
+					break;
+				case 1:
+					feaverPoint->Pop(stage->GetRightX());
+					break;
+				default:
+					break;
+				}
+				itemPopCount = 0;
+			}
 		}
+#pragma endregion
+#pragma region フィーバー
 		else if (mode == Mode::Feaver)
 		{
 			feaverTime--;
@@ -73,10 +97,11 @@ void GameScene::Update()
 				leftPoint->Pop();
 				rightPoint->Pop();
 				feaverCount = 0;
-				feaverPopCount = 0;
+				feaverChargeCount = 0;
 				mode = Mode::Normal;
 			}
 		}
+#pragma endregion
 
 		feaverPoint->Update();
 	}
@@ -112,26 +137,30 @@ void GameScene::Draw()
 	DrawFormatString(0, 20, GetColor(255, 255, 255), "フィーバー時間:%f", feaverTime);
 	DrawFormatString(0, 40, GetColor(255, 255, 255), "フィーバーカウント:%d", feaverCount);
 	DrawFormatString(0, 60, GetColor(255, 255, 255), "コンボ:%d", pointManager->GetCombo());
+	DrawFormatString(0, 120, GetColor(255, 255, 255), "isDead:%d", feaverPoint->IsDead());
+	DrawFormatString(0, 140, GetColor(255, 255, 255), "itemPop:%d", itemPopCount);
 	//DrawFormatString(0, 100, GetColor(255, 255, 255), "点数:%d", leftPoint->GetScore());
 	//DrawFormatString(0, 120, GetColor(255, 255, 255), "点数:%d", rightPoint->GetScore());
 
 }
 
-void GameScene::AllCollision(Player& player, Point& leftPoint, Point& rightPoint, int& feaverPopCount,
-	FeaverPoint& feaverPoint, int& feaverCount, PointManager& pointManager)
+void GameScene::AllCollision(Player& player, Point& leftPoint, Point& rightPoint, int& feaverChargeCount,
+	FeaverPoint& feaverPoint, PointManager& pointManager, int& itemPopCount)
 {
-	Transform posA, posB, posC;
+	Transform posA, posB, posC, posD;
 
 	posA = player.GetTransform();
 	posB = leftPoint.GetTransform();
 	posC = rightPoint.GetTransform();
+	posD = feaverPoint.GetTransform();
 	if (player.GetIsChange())
 	{
 		if (BoxCollision(posA, posB) && player.IsAddCount())
 		{
-			feaverPopCount++;
+			feaverChargeCount++;
 			player.AddLevelupCount();
 			leftPoint.Pop();
+			itemPopCount++;
 
 			player.ChangeIsAddCount();
 			pointManager.OnCollisionLeft(leftPoint);
@@ -139,12 +168,18 @@ void GameScene::AllCollision(Player& player, Point& leftPoint, Point& rightPoint
 
 		if (BoxCollision(posA, posC) && player.IsAddCount())
 		{
-			feaverPopCount++;
+			feaverChargeCount++;
 			player.AddLevelupCount();
 			rightPoint.Pop();
+			itemPopCount++;
 
 			player.ChangeIsAddCount();
 			pointManager.OnCollisionRight(rightPoint);
+		}
+
+		if (BoxCollision(posA, posD))
+		{
+			feaverPoint.Dead();
 		}
 
 		if (!BoxCollision(posA, posB) && !BoxCollision(posA, posC) && player.IsAddCount())
@@ -154,20 +189,6 @@ void GameScene::AllCollision(Player& player, Point& leftPoint, Point& rightPoint
 			pointManager.OnCollisionFailure();
 		}
 	}
-
-	/*posB = feaverPoint.GetTransform();
-
-	if (posA.x - posA.width / 2 <= posB.x + posB.width / 2 &&
-		posA.x + posA.width / 2 >= posB.x - posB.width / 2 &&
-		posA.y + posA.height / 2 >= posB.y - posB.height / 2 &&
-		posA.y - posA.height / 2 <= posB.y + posB.height / 2)
-	{
-		if (player.GetIsChange())
-		{
-			feaverCount++;
-			feaverPoint.Dead();
-		}
-	}*/
 }
 
 bool GameScene::BoxCollision(Transform& posA, Transform& posB)

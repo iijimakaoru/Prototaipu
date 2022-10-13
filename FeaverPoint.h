@@ -11,8 +11,10 @@ public:
 	void Draw();
 	Transform GetTransform() { return transform; }
 	void Dead();
+	bool IsDead() { return isDead; }
 
 private:
 	Transform transform;
+	bool isDead;
 };
 
