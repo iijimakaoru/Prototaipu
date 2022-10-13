@@ -16,20 +16,21 @@ void Player::Init(Stage& stage)
 
 void Player::Update(Stage& stage, Input& input)
 {
+	// スピードアップ処理
 	if (levelupCount >= 3 && speedLevel <= 3)
 	{
 		speedLevel++;
 		levelupCount = 0;
 		levelDownCount = 0;
 	}
-
+	// スピードダウン処理
 	if (levelDownCount >= 3 && speedLevel > 1)
 	{
 		speedLevel--;
 		levelDownCount = 0;
 		levelupCount = 0;
 	}
-
+#pragma region レベルによっての速度設定
 	if (speedLevel == 1)
 	{
 		speed = 5;
@@ -42,7 +43,8 @@ void Player::Update(Stage& stage, Input& input)
 	{
 		speed = 9;
 	}
-
+#pragma endregion
+	// 壁を跳んでないとき
 	if (!isChange)
 	{
 		if (transform.y - transform.height / 2 <= 0 ||
@@ -55,6 +57,7 @@ void Player::Update(Stage& stage, Input& input)
 
 		isAddCount = false;
 	}
+	// 壁を跳んでるとき
 	else
 	{
 		if (vec == Vec::LEFT)
@@ -66,13 +69,13 @@ void Player::Update(Stage& stage, Input& input)
 			transform.x -= 80;
 		}
 	}
-
+	// 壁跳び移り
 	if (input.isTriger(KEY_INPUT_SPACE) && !isChange)
 	{
 		isChange = true;
 		isAddCount = true;
 	}
-
+#pragma region 壁の押し戻し処理
 	if (transform.x - transform.width / 2 <= stage.GetLeftX())
 	{
 		transform.x = (stage.GetLeftX() + transform.width / 2) + 1;
@@ -92,6 +95,7 @@ void Player::Update(Stage& stage, Input& input)
 		}
 		isChange = false;
 	}
+#pragma endregion
 }
 
 void Player::Draw()
