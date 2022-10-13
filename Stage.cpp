@@ -2,8 +2,10 @@
 
 void Stage::Init()
 {
+	// “ñ–{ü
 	leftX = WIN_WIDTH / 4;
 	rightX = WIN_WIDTH * 3 / 4;
+	// dØ‚èü
 	for (int i = 0; i < 2; i++)
 	{
 		sikiriRightX[i] = rightX;
