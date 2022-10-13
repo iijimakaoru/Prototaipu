@@ -17,7 +17,7 @@ public:
 	void Update();
 	void Draw();
 	void AllCollision(Player& player, Point& leftPoint, Point& rightPoint, int& feaverChargeCount,
-		FeaverPoint& feaverPoint, PointManager& pointManager, int& itemPopCount);
+		FeaverPoint& item, PointManager& pointManager, int& itemPopCount);
 	bool BoxCollision(Transform& posA, Transform& posB);
 
 private:

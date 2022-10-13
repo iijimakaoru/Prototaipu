@@ -145,14 +145,14 @@ void GameScene::Draw()
 }
 
 void GameScene::AllCollision(Player& player, Point& leftPoint, Point& rightPoint, int& feaverChargeCount,
-	FeaverPoint& feaverPoint, PointManager& pointManager, int& itemPopCount)
+	FeaverPoint& item, PointManager& pointManager, int& itemPopCount)
 {
 	Transform posA, posB, posC, posD;
 
 	posA = player.GetTransform();
 	posB = leftPoint.GetTransform();
 	posC = rightPoint.GetTransform();
-	posD = feaverPoint.GetTransform();
+	posD = item.GetTransform();
 	if (player.GetIsChange())
 	{
 		if (BoxCollision(posA, posB) && player.IsAddCount())
@@ -179,10 +179,11 @@ void GameScene::AllCollision(Player& player, Point& leftPoint, Point& rightPoint
 
 		if (BoxCollision(posA, posD))
 		{
-			feaverPoint.Dead();
+			item.Dead();
 		}
 
-		if (!BoxCollision(posA, posB) && !BoxCollision(posA, posC) && player.IsAddCount())
+		if (!BoxCollision(posA, posB) && !BoxCollision(posA, posC) && !BoxCollision(posA, posD)
+			&& player.IsAddCount())
 		{
 			player.AddLevelDownCount();
 			player.ChangeIsAddCount();
