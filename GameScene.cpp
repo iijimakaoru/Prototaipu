@@ -110,6 +110,7 @@ void GameScene::Update()
 		if (input->isTriger(KEY_INPUT_SPACE))
 		{
 			scene = Scene::Title;
+			pointManager->Reset();
 		}
 	}
 }
@@ -136,9 +137,11 @@ void GameScene::Draw()
 	DrawFormatString(0, 0, GetColor(255, 255, 255), "ゲーム時間:%f", gameTimer);
 	DrawFormatString(0, 20, GetColor(255, 255, 255), "フィーバー時間:%f", feaverTime);
 	DrawFormatString(0, 40, GetColor(255, 255, 255), "フィーバーカウント:%d", feaverCount);
-	DrawFormatString(0, 60, GetColor(255, 255, 255), "コンボ:%d", pointManager->GetCombo());
+	DrawFormatString(200, 140, GetColor(255, 255, 255), "コンボ:%d", pointManager->GetCombo());
 	DrawFormatString(0, 120, GetColor(255, 255, 255), "isDead:%d", feaverPoint->IsDead());
 	DrawFormatString(0, 140, GetColor(255, 255, 255), "itemPop:%d", itemPopCount);
+	//DrawFormatString(200, 200, GetColor(255, 255, 255), "合計:%d", pointManager->GetTotalScore());
+
 	//DrawFormatString(0, 100, GetColor(255, 255, 255), "点数:%d", leftPoint->GetScore());
 	//DrawFormatString(0, 120, GetColor(255, 255, 255), "点数:%d", rightPoint->GetScore());
 
@@ -153,6 +156,8 @@ void GameScene::AllCollision(Player& player, Point& leftPoint, Point& rightPoint
 	posB = leftPoint.GetTransform();
 	posC = rightPoint.GetTransform();
 	posD = item.GetTransform();
+
+	int feverCombo = item.GetFeverCombo_();
 	if (player.GetIsChange())
 	{
 		if (BoxCollision(posA, posB) && player.IsAddCount())
@@ -163,7 +168,14 @@ void GameScene::AllCollision(Player& player, Point& leftPoint, Point& rightPoint
 			itemPopCount++;
 
 			player.ChangeIsAddCount();
-			pointManager.OnCollisionLeft(leftPoint);
+			if (mode != Mode::Feaver)
+			{
+				pointManager.OnCollisionLeft(leftPoint);
+			}
+			if (mode == Mode::Feaver)
+			{
+				pointManager.OnCollisionFever(item);
+			}
 		}
 
 		if (BoxCollision(posA, posC) && player.IsAddCount())
@@ -174,7 +186,15 @@ void GameScene::AllCollision(Player& player, Point& leftPoint, Point& rightPoint
 			itemPopCount++;
 
 			player.ChangeIsAddCount();
-			pointManager.OnCollisionRight(rightPoint);
+			if (mode != Mode::Feaver)
+			{
+				pointManager.OnCollisionRight(rightPoint);
+			}
+			if (mode == Mode::Feaver)
+			{
+				pointManager.OnCollisionFever(item);
+				feverCombo++;
+			}
 		}
 
 		if (BoxCollision(posA, posD))
@@ -190,6 +210,8 @@ void GameScene::AllCollision(Player& player, Point& leftPoint, Point& rightPoint
 			pointManager.OnCollisionFailure();
 		}
 	}
+
+
 }
 
 bool GameScene::BoxCollision(Transform& posA, Transform& posB)

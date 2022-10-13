@@ -46,15 +46,23 @@ void FeaverPoint::Update()
 
 void FeaverPoint::Draw()
 {
+	
 	if (isDead)
 	{
 		DrawBox(transform.x - transform.width / 2, transform.y - transform.height / 2,
 			transform.x + transform.width / 2, transform.y + transform.height / 2,
 			GetColor(0, 255, 255), true);
 	}
+
 }
 
 void FeaverPoint::Dead()
 {
 	isDead = false;
+}
+
+//“¾“_‰ÁŽZ
+void FeaverPoint::OnCollisionScore(int feverCombo)
+{
+	score_ = feverCombo * 10 + scoreNum_;
 }

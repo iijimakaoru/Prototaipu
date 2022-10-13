@@ -27,7 +27,9 @@ void PointManager::Update(Point &leftPoint,Point &rightPoint)
 
 void PointManager::Draw()
 {
-	DrawFormatString(200, 200, GetColor(255, 255, 255), "合計:%d", totalScore_);
+	DrawFormatString(200, 220, GetColor(255, 255, 255), "合計:%d", totalScore_);
+	DrawFormatString(200, 180, GetColor(255, 255, 255), "通常スコア:%d", normalScore_);
+	DrawFormatString(200, 160, GetColor(255, 255, 255), "フィーバースコア:%d", feverScore_);
 	//DrawGraph(150, 150, scoreGraph, true);
 	/*for (int i = 0; i < 7; i++) {
 		DrawGraph(numPos.x + (40 * i), numPos.y, numGraph[displayNum[i]], true);
@@ -36,6 +38,7 @@ void PointManager::Draw()
 
 void PointManager::Reset()
 {
+	totalScore_ = 0;
 }
 
 void PointManager::SumScore(int scoreA,int scoreB)
@@ -55,20 +58,31 @@ void PointManager::SetTotalScore(int totalScore)
 
 void PointManager::OnCollisionLeft(Point& leftPoint)
 {
-	int leftScore;
 	leftPoint.OnCollisionScore(combo_);
-	leftScore = leftPoint.GetScore();
-	totalScore_ += leftScore;
+	/*normalScore_ = leftPoint.GetScore();
+	totalScore_ += normalScore_;
+	*/
+	leftScore_ = leftPoint.GetScore();
+	normalScore_ += leftScore_;
+	totalScore_ += normalScore_;
 	combo_++;
 }
 
 void PointManager::OnCollisionRight(Point& rightPoint)
 {
-	int rightScore;
 	rightPoint.OnCollisionScore(combo_);
-	rightScore = rightPoint.GetScore();
-	totalScore_ += rightScore;
+	rightScore_ = rightPoint.GetScore();
+	normalScore_ += rightScore_;
+	totalScore_ += normalScore_;
 	combo_++;
+}
+
+void PointManager::OnCollisionFever(FeaverPoint& feverPoint)
+{
+	feverPoint.OnCollisionScore(feverCombo_);
+	feverScore_ = feverPoint.GetScore();
+	totalScore_ += feverScore_;
+	feverCombo_++;
 }
 
 void PointManager::OnCollisionFailure()

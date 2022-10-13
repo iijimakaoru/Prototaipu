@@ -18,11 +18,13 @@ public:
 
 	void OnCollisionLeft(Point& leftPoint);
 	void OnCollisionRight(Point& rightPoint);
+	void OnCollisionFever(FeaverPoint& feverPoint);
 	void OnCollisionFailure();
 
 private:
 
 	std::unique_ptr<Point> point_ = std::make_unique<Point>();
+	//std::unique_ptr<FeaverPoint> feverPoint_ = std::make_unique<FeaverPoint>();
 
 	//得点の位置
 	float numPosX;
@@ -37,7 +39,18 @@ private:
 
 	//コンボ数
 	int combo_;
+	//フィーバーコンボ
+	int feverCombo_;
 
+	//左スコア
+	int leftScore_;
+	//右スコア
+	int rightScore_;
+
+	//通常スコア
+	int normalScore_;
+	//フィーバー得点
+	int feverScore_;
 	//総得点
 	int totalScore_;
 	//表示桁数
