@@ -18,8 +18,7 @@ public:
 	void Initialize();
 	void Update();
 	void Draw();
-	void AllCollision(Player& player, Point& leftPoint, Point& rightPoint, int& feaverChargeCount,
-		FeaverPoint& item, PointManager& pointManager, int& itemPopCount);
+	void AllCollision();
 	bool BoxCollision(Transform& posA, Transform& posB);
 	void EnemySpawn();
 

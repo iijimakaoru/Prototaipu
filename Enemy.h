@@ -10,9 +10,12 @@ public:
 	void Update();
 	void Draw();
 	void Pop();
+	bool IsDead() const { return isDead; }
+	void OnCollision() { isDead = true; }
+	Transform GetTrans() { return transform; }
 
 private:
-	Transform pos;
+	Transform transform;
 	bool isDead;
 	float speed;
 	int moveVec;

@@ -23,6 +23,8 @@ void GameScene::Update()
 {
 	input->KeyInit();
 
+	enemys.remove_if([](std::unique_ptr<Enemy>& enemy) {return enemy->IsDead(); });
+
 	if (scene == Scene::Title)
 	{
 		player->Init(*stage);
@@ -51,8 +53,7 @@ void GameScene::Update()
 		pointManager->Update(*leftPoint, *rightPoint);
 #pragma endregion
 		// 当たり判定呼び出し
-		AllCollision(*player, *leftPoint, *rightPoint, feaverChargeCount,
-			*feaverPoint, *pointManager, itemPopCount);
+		AllCollision();
 #pragma region ノーマル
 		if (mode == Mode::Normal)
 		{
@@ -77,7 +78,6 @@ void GameScene::Update()
 			if (itemPopCount >= 3)
 			{
 				int popVec = GetRand(1);
-				//feaverPoint->IsDeadTrue();
 				switch (popVec)
 				{
 				case 0:
@@ -158,54 +158,53 @@ void GameScene::Draw()
 
 }
 
-void GameScene::AllCollision(Player& player, Point& leftPoint, Point& rightPoint, int& feaverChargeCount,
-	FeaverPoint& item, PointManager& pointManager, int& itemPopCount)
+void GameScene::AllCollision()
 {
-	Transform posA, posB, posC, posD;
+	Transform posA, posB, posC, posD, posE;
 
-	posA = player.GetTransform();
-	posB = leftPoint.GetTransform();
-	posC = rightPoint.GetTransform();
-	posD = item.GetTransform();
+	posA = player->GetTransform();
+	posB = leftPoint->GetTransform();
+	posC = rightPoint->GetTransform();
+	posD = feaverPoint->GetTransform();
 
-	int feverCombo = item.GetFeverCombo_();
-	if (player.GetIsChange())
+	int feverCombo = feaverPoint->GetFeverCombo_();
+	if (player->GetIsChange())
 	{
-		if (BoxCollision(posA, posB) && player.IsAddCount())
+		if (BoxCollision(posA, posB) && player->IsAddCount())
 		{
 			feaverChargeCount++;
-			player.AddLevelupCount();
-			leftPoint.Pop();
+			player->AddLevelupCount();
+			leftPoint->Pop();
 			itemPopCount++;
 
-			player.ChangeIsAddCount();
+			player->ChangeIsAddCount();
 			if (mode != Mode::Feaver)
 			{
-				pointManager.OnCollisionLeft(leftPoint);
+				pointManager->OnCollisionLeft(*leftPoint);
 			}
 			if (mode == Mode::Feaver)
 			{
-				pointManager.OnCollisionFever(item);
+				pointManager->OnCollisionFever(*feaverPoint);
 			}
 			// エネミースポーン
 			EnemySpawn();
 		}
 
-		if (BoxCollision(posA, posC) && player.IsAddCount())
+		if (BoxCollision(posA, posC) && player->IsAddCount())
 		{
 			feaverChargeCount++;
-			player.AddLevelupCount();
-			rightPoint.Pop();
+			player->AddLevelupCount();
+			rightPoint->Pop();
 			itemPopCount++;
 
-			player.ChangeIsAddCount();
+			player->ChangeIsAddCount();
 			if (mode != Mode::Feaver)
 			{
-				pointManager.OnCollisionRight(rightPoint);
+				pointManager->OnCollisionRight(*rightPoint);
 			}
 			if (mode == Mode::Feaver)
 			{
-				pointManager.OnCollisionFever(item);
+				pointManager->OnCollisionFever(*feaverPoint);
 				feverCombo++;
 			}
 			// エネミースポーン
@@ -214,15 +213,31 @@ void GameScene::AllCollision(Player& player, Point& leftPoint, Point& rightPoint
 
 		if (BoxCollision(posA, posD))
 		{
-			item.Dead();
+			feaverPoint->Dead();
 		}
 
 		if (!BoxCollision(posA, posB) && !BoxCollision(posA, posC) && !BoxCollision(posA, posD)
-			&& player.IsAddCount())
+			&& player->IsAddCount())
 		{
-			player.AddLevelDownCount();
-			player.ChangeIsAddCount();
-			pointManager.OnCollisionFailure();
+			player->AddLevelDownCount();
+			player->ChangeIsAddCount();
+			pointManager->OnCollisionFailure();
+		}
+
+		for (std::unique_ptr<Enemy>& enemy : enemys)
+		{
+			posE = enemy->GetTrans();
+			if (mode == Mode::Normal)
+			{
+
+			}
+			else if (mode == Mode::Feaver)
+			{
+				if (BoxCollision(posA, posE))
+				{
+					enemy->OnCollision();
+				}
+			}
 		}
 	}
 
