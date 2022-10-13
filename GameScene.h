@@ -6,6 +6,8 @@
 #include "Struct.h"
 #include "Input.h"
 #include "PointManager.h"
+#include <list>
+#include "Enemy.h"
 
 class GameScene
 {
@@ -19,6 +21,7 @@ public:
 	void AllCollision(Player& player, Point& leftPoint, Point& rightPoint, int& feaverChargeCount,
 		FeaverPoint& item, PointManager& pointManager, int& itemPopCount);
 	bool BoxCollision(Transform& posA, Transform& posB);
+	void EnemySpawn();
 
 private:
 
@@ -53,5 +56,7 @@ private:
 	float gameTimer = 0;
 
 	int itemPopCount = 0;
+
+	std::list<std::unique_ptr<Enemy>> enemys;
 };
 

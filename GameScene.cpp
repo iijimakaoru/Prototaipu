@@ -56,6 +56,11 @@ void GameScene::Update()
 #pragma region ノーマル
 		if (mode == Mode::Normal)
 		{
+			for (std::unique_ptr<Enemy>& enemy : enemys)
+			{
+				enemy->Update();
+			}
+
 			if (feaverChargeCount >= 3)
 			{
 				feaverCount++;
@@ -131,6 +136,10 @@ void GameScene::Draw()
 		feaverPoint->Draw();
 		player->Draw();
 		pointManager->Draw();
+		for (std::unique_ptr<Enemy>& enemy : enemys)
+		{
+			enemy->Draw();
+		}
 	}
 	else if (scene == Scene::Result)
 	{
@@ -178,6 +187,8 @@ void GameScene::AllCollision(Player& player, Point& leftPoint, Point& rightPoint
 			{
 				pointManager.OnCollisionFever(item);
 			}
+			// エネミースポーン
+			EnemySpawn();
 		}
 
 		if (BoxCollision(posA, posC) && player.IsAddCount())
@@ -197,6 +208,8 @@ void GameScene::AllCollision(Player& player, Point& leftPoint, Point& rightPoint
 				pointManager.OnCollisionFever(item);
 				feverCombo++;
 			}
+			// エネミースポーン
+			EnemySpawn();
 		}
 
 		if (BoxCollision(posA, posD))
@@ -222,4 +235,12 @@ bool GameScene::BoxCollision(Transform& posA, Transform& posB)
 		posA.x + posA.width / 2 >= posB.x - posB.width / 2 &&
 		posA.y + posA.height / 2 >= posB.y - posB.height / 2 &&
 		posA.y - posA.height / 2 <= posB.y + posB.height / 2;
+}
+
+void GameScene::EnemySpawn()
+{
+	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+	newEnemy->Init();
+
+	enemys.push_back(std::move(newEnemy));
 }
