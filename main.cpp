@@ -30,8 +30,11 @@ void AllCollision(Player& player, Point& leftPoint, Point& rightPoint, int& feav
 			feaverPopCount++;
 			player.AddLevelupCount();
 			leftPoint.Pop();
+
 			player.ChangeIsAddCount();
+
 			pointManager.OnCollisionRight(rightPoint);
+
 		}
 
 		if (BoxCollision(posA, posC) && player.IsAddCount())
@@ -39,6 +42,7 @@ void AllCollision(Player& player, Point& leftPoint, Point& rightPoint, int& feav
 			feaverPopCount++;
 			player.AddLevelupCount();
 			rightPoint.Pop();
+
 			player.ChangeIsAddCount();
 		}
 
@@ -46,7 +50,9 @@ void AllCollision(Player& player, Point& leftPoint, Point& rightPoint, int& feav
 		{
 			player.AddLevelDownCount();
 			player.ChangeIsAddCount();
+
 			pointManager.OnCollisionLeft(leftPoint);
+
 		}
 	}
 
@@ -145,6 +151,17 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	std::unique_ptr<Input> input;
 	input = std::make_unique<Input>();
 	input->Init();
+
+
+
+	float gameTimer = 0;
+
+	//// 最新のキーボード情報用
+	//char keys[256] = { 0 };
+
+	//// 1ループ(フレーム)前のキーボード情報
+	//char oldkeys[256] = { 0 };
+
 
 	// ゲームループ
 	while (1)
