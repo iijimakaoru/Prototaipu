@@ -67,7 +67,7 @@ void Player::Update(Stage& stage, Input& input)
 		}
 	}
 
-	if (input.isTriger(KEY_INPUT_SPACE))
+	if (input.isTriger(KEY_INPUT_SPACE) && !isChange)
 	{
 		isChange = true;
 		isAddCount = true;

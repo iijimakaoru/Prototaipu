@@ -122,7 +122,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	pointManager = std::make_unique<PointManager>();
 	pointManager->Init();
 
-
 	int feaverPopCount = 0;
 	int feaverCount = 0;
 
@@ -149,13 +148,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	input = std::make_unique<Input>();
 	input->Init();
 	float gameTimer = 0;
-
-	//// 最新のキーボード情報用
-	//char keys[256] = { 0 };
-
-	//// 1ループ(フレーム)前のキーボード情報
-	//char oldkeys[256] = { 0 };
-
 
 	// ゲームループ
 	while (1)
