@@ -6,19 +6,31 @@
 class Enemy
 {
 public:
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	void Init();
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
+	/// <summary>
+	/// 描画
+	/// </summary>
 	void Draw();
-	void Pop();
 	// 死亡フラグ判定
-	bool IsDead() const { return isDead; }
+	bool IsDead() const { return isDead_; }
 	// 当たったとき
-	void OnCollision() { isDead = true; }
-	Transform GetTrans() { return transform; }
+	void OnCollision() { isDead_ = true; }
+	Transform GetTrans() { return transform_; }
 
 private:
-	Transform transform;
-	bool isDead;
-	float speed;
-	int moveVec;
+	// 形
+	Transform transform_;
+	// 死亡フラグ
+	bool isDead_;
+	// スピード
+	float speed_;
+	// 動く方向
+	int moveVec_;
 };

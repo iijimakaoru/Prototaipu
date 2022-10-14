@@ -2,27 +2,27 @@
 
 void Enemy::Init()
 {
-	transform.x = WIN_WIDTH / 2;
-	transform.y = WIN_HEIGHT / 2;
-	transform.width = 30;
-	transform.height = 30;
-	speed = 2;
-	moveVec = 1;
+	transform_.x = WIN_WIDTH / 2;
+	transform_.y = WIN_HEIGHT / 2;
+	transform_.width = 30;
+	transform_.height = 30;
+	speed_ = 2;
+	moveVec_ = 1;
 }
 
 void Enemy::Update()
 {
-	if (transform.y - transform.height / 2 <= 0 || transform.y + transform.height / 2 >= WIN_HEIGHT)
+	if (transform_.y - transform_.height / 2 <= 0 || transform_.y + transform_.height / 2 >= WIN_HEIGHT)
 	{
-		moveVec *= -1;
+		moveVec_ *= -1;
 	}
 
-	transform.y += speed * moveVec;
+	transform_.y += speed_ * moveVec_;
 }
 
 void Enemy::Draw()
 {
-	DrawBox(transform.x - transform.width / 2, transform.y - transform.height / 2,
-		transform.x + transform.width / 2, transform.y + transform.height / 2,
+	DrawBox(transform_.x - transform_.width / 2, transform_.y - transform_.height / 2,
+		transform_.x + transform_.width / 2, transform_.y + transform_.height / 2,
 		GetColor(255, 0, 0), true);
 }
