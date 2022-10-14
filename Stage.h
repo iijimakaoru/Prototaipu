@@ -7,15 +7,15 @@ public:
 	void Init();
 	void Update();
 	void Draw();
-	int GetLeftX() { return leftX; }
-	int GetRightX() { return rightX; }
+	int GetLeftX() { return leftX_; }
+	int GetRightX() { return rightX_; }
 
 private:
-	int leftX;
-	int rightX;
-	float sikiriRightX[2];
-	float sikiriRightY[2];
-	float sikiriLeftX[2];
-	float sikiriLeftY[2];
+	int leftX_;
+	int rightX_;
+	float sikiriRightX_[2];
+	float sikiriRightY_[2];
+	float sikiriLeftX_[2];
+	float sikiriLeftY_[2];
 };
 

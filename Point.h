@@ -10,17 +10,17 @@ public:
 	void Pop();
 	void FeaverUpdate();
 	void Draw();
-	Transform GetTransform() { return transform; }
-	int GetScore() { return score; }
+	Transform GetTransform() { return transform_; }
+	int GetScore() { return score_; }
 
 	void OnCollisionScore(int combo);
 
 private:
-	Transform transform;
-	int popPos;
-	int popVec;
+	Transform transform_;
+	int popPos_;
+	int popVec_;
 	//“¾“_
 	const int scoreNum = 100;
-	int score;
+	int score_;
 };
 

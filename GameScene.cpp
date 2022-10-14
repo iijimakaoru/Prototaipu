@@ -10,10 +10,10 @@ GameScene::~GameScene()
 
 void GameScene::Initialize()
 {
-	stage->Init();
-	player->Init(*stage);
-	leftPoint->Init(stage->GetLeftX());
-	rightPoint->Init(stage->GetRightX());
+	stage_->Init();
+	player->Init(*stage_);
+	leftPoint->Init(stage_->GetLeftX());
+	rightPoint->Init(stage_->GetRightX());
 	feaverPoint->Init();
 	pointManager->Init();
 	input->Init();
@@ -28,7 +28,7 @@ void GameScene::Update()
 
 	if (scene == Scene::Title)
 	{
-		player->Init(*stage);
+		player->Init(*stage_);
 		feaverTime = 0;
 		feaverChargeCount = 0;
 		feaverPoint->Init();
@@ -47,7 +47,7 @@ void GameScene::Update()
 		{
 			scene = Scene::Result;
 		}
-		player->Update(*stage, *input);
+		player->Update(*stage_, *input);
 #pragma region ポイントアップデート
 		leftPoint->Update();
 		rightPoint->Update();
@@ -83,10 +83,10 @@ void GameScene::Update()
 				switch (popVec)
 				{
 				case 0:
-					feaverPoint->Pop(stage->GetLeftX());
+					feaverPoint->Pop(stage_->GetLeftX());
 					break;
 				case 1:
-					feaverPoint->Pop(stage->GetRightX());
+					feaverPoint->Pop(stage_->GetRightX());
 					break;
 				default:
 					break;
@@ -132,7 +132,7 @@ void GameScene::Draw()
 	}
 	else if (scene == Scene::Game)
 	{
-		stage->Draw();
+		stage_->Draw();
 		leftPoint->Draw();
 		rightPoint->Draw();
 		feaverPoint->Draw();

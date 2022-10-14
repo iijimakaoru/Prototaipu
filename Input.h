@@ -17,8 +17,8 @@ public:
 
 private:
 	// 最新のキーボード情報用
-	char* keys;
+	char* keys_;
 	// 1ループ(フレーム)前のキーボード情報
-	char* oldkeys;
+	char* oldkeys_;
 };
 
