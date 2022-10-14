@@ -41,7 +41,7 @@ private:
 	// ステージ
 	std::unique_ptr<Stage> stage_ = std::make_unique<Stage>();
 	// プレイヤー
-	std::unique_ptr<Player> player = std::make_unique<Player>();
+	std::unique_ptr<Player> player_ = std::make_unique<Player>();
 	// 左壁のポイント
 	std::unique_ptr<Point> leftPoint = std::make_unique<Point>();
 	// 右壁のポイント
@@ -67,6 +67,6 @@ private:
 	// 
 	int itemPopCount = 0;
 	// 敵
-	std::list<std::unique_ptr<Enemy>> enemys;
+	std::list<std::unique_ptr<Enemy>> enemys_;
 };
 

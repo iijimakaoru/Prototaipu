@@ -11,7 +11,7 @@ GameScene::~GameScene()
 void GameScene::Initialize()
 {
 	stage_->Init();
-	player->Init(*stage_);
+	player_->Init(*stage_);
 	leftPoint->Init(stage_->GetLeftX());
 	rightPoint->Init(stage_->GetRightX());
 	feaverPoint->Init();
@@ -24,11 +24,11 @@ void GameScene::Update()
 	input->KeyInit();
 
 	// 敵を消す処理
-	enemys.remove_if([](std::unique_ptr<Enemy>& enemy) {return enemy->IsDead(); });
+	enemys_.remove_if([](std::unique_ptr<Enemy>& enemy) {return enemy->IsDead(); });
 
 	if (scene == Scene::Title)
 	{
-		player->Init(*stage_);
+		player_->Init(*stage_);
 		feaverTime = 0;
 		feaverChargeCount = 0;
 		feaverPoint->Init();
@@ -47,7 +47,7 @@ void GameScene::Update()
 		{
 			scene = Scene::Result;
 		}
-		player->Update(*stage_, *input);
+		player_->Update(*stage_, *input);
 #pragma region ポイントアップデート
 		leftPoint->Update();
 		rightPoint->Update();
@@ -59,7 +59,7 @@ void GameScene::Update()
 		if (mode == Mode::Normal)
 		{
 			// 敵の動き
-			for (std::unique_ptr<Enemy>& enemy : enemys)
+			for (std::unique_ptr<Enemy>& enemy : enemys_)
 			{
 				enemy->Update();
 			}
@@ -136,10 +136,10 @@ void GameScene::Draw()
 		leftPoint->Draw();
 		rightPoint->Draw();
 		feaverPoint->Draw();
-		player->Draw();
+		player_->Draw();
 		pointManager->Draw();
 		// 敵の描画
-		for (std::unique_ptr<Enemy>& enemy : enemys)
+		for (std::unique_ptr<Enemy>& enemy : enemys_)
 		{
 			enemy->Draw();
 		}
@@ -165,22 +165,22 @@ void GameScene::AllCollision()
 {
 	Transform posA, posB, posC, posD, posE;
 
-	posA = player->GetTransform();
+	posA = player_->GetTransform();
 	posB = leftPoint->GetTransform();
 	posC = rightPoint->GetTransform();
 	posD = feaverPoint->GetTransform();
 
 	int feverCombo = feaverPoint->GetFeverCombo_();
-	if (player->GetIsChange())
+	if (player_->GetIsChange())
 	{
-		if (BoxCollision(posA, posB) && player->IsAddCount())
+		if (BoxCollision(posA, posB) && player_->IsAddCount())
 		{
 			feaverChargeCount++;
-			player->AddLevelupCount();
+			player_->AddLevelupCount();
 			leftPoint->Pop();
 			itemPopCount++;
 
-			player->ChangeIsAddCount();
+			player_->ChangeIsAddCount();
 			if (mode != Mode::Feaver)
 			{
 				pointManager->OnCollisionLeft(*leftPoint);
@@ -193,14 +193,14 @@ void GameScene::AllCollision()
 			EnemySpawn();
 		}
 
-		if (BoxCollision(posA, posC) && player->IsAddCount())
+		if (BoxCollision(posA, posC) && player_->IsAddCount())
 		{
 			feaverChargeCount++;
-			player->AddLevelupCount();
+			player_->AddLevelupCount();
 			rightPoint->Pop();
 			itemPopCount++;
 
-			player->ChangeIsAddCount();
+			player_->ChangeIsAddCount();
 			if (mode != Mode::Feaver)
 			{
 				pointManager->OnCollisionRight(*rightPoint);
@@ -220,14 +220,14 @@ void GameScene::AllCollision()
 		}
 
 		if (!BoxCollision(posA, posB) && !BoxCollision(posA, posC) && !BoxCollision(posA, posD)
-			&& player->IsAddCount())
+			&& player_->IsAddCount())
 		{
-			player->AddLevelDownCount();
-			player->ChangeIsAddCount();
+			player_->AddLevelDownCount();
+			player_->ChangeIsAddCount();
 			pointManager->OnCollisionFailure();
 		}
 		// 敵の当たり判定
-		for (std::unique_ptr<Enemy>& enemy : enemys)
+		for (std::unique_ptr<Enemy>& enemy : enemys_)
 		{
 			posE = enemy->GetTrans();
 			if (mode == Mode::Normal)
@@ -260,5 +260,5 @@ void GameScene::EnemySpawn()
 	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
 	newEnemy->Init();
 
-	enemys.push_back(std::move(newEnemy));
+	enemys_.push_back(std::move(newEnemy));
 }
