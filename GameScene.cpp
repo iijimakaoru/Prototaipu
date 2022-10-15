@@ -171,7 +171,7 @@ void GameScene::AllCollision()
 	posD = feaverPoint->GetTransform();
 
 	int feverCombo = feaverPoint->GetFeverCombo_();
-	if (player_->GetIsChange())
+	if (!player_->GetIsChange())
 	{
 		if (BoxCollision(posA, posB) && player_->IsAddCount())
 		{
@@ -226,25 +226,23 @@ void GameScene::AllCollision()
 			player_->ChangeIsAddCount();
 			pointManager->OnCollisionFailure();
 		}
-		// “G‚Ì“–‚½‚è”»’è
-		for (std::unique_ptr<Enemy>& enemy : enemys_)
+	}
+	// “G‚Ì“–‚½‚è”»’è
+	for (std::unique_ptr<Enemy>& enemy : enemys_)
+	{
+		posE = enemy->GetTrans();
+		if (mode == Mode::Normal)
 		{
-			posE = enemy->GetTrans();
-			if (mode == Mode::Normal)
-			{
 
-			}
-			else if (mode == Mode::Feaver)
+		}
+		else if (mode == Mode::Feaver)
+		{
+			if (BoxCollision(posA, posE))
 			{
-				if (BoxCollision(posA, posE))
-				{
-					enemy->OnCollision();
-				}
+				enemy->OnCollision();
 			}
 		}
 	}
-
-
 }
 
 bool GameScene::BoxCollision(Transform& posA, Transform& posB)
