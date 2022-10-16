@@ -3,6 +3,7 @@
 #include "Stage.h"
 #include "Struct.h"
 #include "Input.h"
+#include "ParticleManager.h"
 
 class Player
 {
@@ -23,7 +24,7 @@ public:
 	/// </summary>
 	/// <param name="stage"></param>
 	/// <param name="input"></param>
-	void Update(Stage& stage, Input& input);
+	void Update(Stage& stage, Input& input, ParticleManager& partManager);
 	/// <summary>
 	/// •`‰æ
 	/// </summary>

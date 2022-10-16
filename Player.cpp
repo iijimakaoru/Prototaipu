@@ -13,7 +13,7 @@ void Player::Init(Stage& stage)
 	levelDownCount_ = 0;
 }
 
-void Player::Update(Stage& stage, Input& input)
+void Player::Update(Stage& stage, Input& input, ParticleManager& partManager)
 {
 	isInpact_ = false;
 	// スピードアップ処理
@@ -107,6 +107,11 @@ void Player::Update(Stage& stage, Input& input)
 		transform_.pos.y = WIN_HEIGHT - transform_.height / 2;
 	}
 #pragma endregion
+
+	if (isInpact_)
+	{
+		partManager.Dash(transform_.pos);
+	}
 }
 
 void Player::Draw()

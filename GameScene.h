@@ -8,6 +8,7 @@
 #include "PointManager.h"
 #include <list>
 #include "Enemy.h"
+#include "ParticleManager.h"
 
 class GameScene
 {
@@ -70,5 +71,7 @@ private:
 	std::list<std::unique_ptr<Enemy>> enemys_;
 	// 
 	int enemyPopCount_ = 0;
+	// 
+	std::unique_ptr<ParticleManager> particleManager_ = std::make_unique<ParticleManager>();
 };
 

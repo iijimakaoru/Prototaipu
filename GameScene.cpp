@@ -17,6 +17,7 @@ void GameScene::Initialize()
 	feaverPoint->Init();
 	pointManager->Init();
 	input->Init();
+	particleManager_->Init();
 }
 
 void GameScene::Update()
@@ -47,7 +48,7 @@ void GameScene::Update()
 		{
 			scene = Scene::Result;
 		}
-		player_->Update(*stage_, *input);
+		player_->Update(*stage_, *input, *particleManager_);
 #pragma region ポイントアップデート
 		leftPoint->Update();
 		rightPoint->Update();
@@ -129,6 +130,8 @@ void GameScene::Update()
 			pointManager->Reset();
 		}
 	}
+
+	particleManager_->Update();
 }
 
 void GameScene::Draw()
@@ -150,6 +153,7 @@ void GameScene::Draw()
 		{
 			enemy->Draw();
 		}
+		particleManager_->Draw();
 	}
 	else if (scene == Scene::Result)
 	{
