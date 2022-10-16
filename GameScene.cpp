@@ -252,10 +252,10 @@ void GameScene::AllCollision()
 
 bool GameScene::BoxCollision(Transform& posA, Transform& posB)
 {
-	return posA.x - posA.width / 2 <= posB.x + posB.width / 2 &&
-		posA.x + posA.width / 2 >= posB.x - posB.width / 2 &&
-		posA.y + posA.height / 2 >= posB.y - posB.height / 2 &&
-		posA.y - posA.height / 2 <= posB.y + posB.height / 2;
+	return posA.pos.x - posA.size.x / 2 <= posB.pos.x + posB.pos.x / 2 &&
+		posA.pos.x + posA.size.x / 2 >= posB.pos.x - posB.size.x / 2 &&
+		posA.pos.y + posA.size.y / 2 >= posB.pos.y - posB.size.y / 2 &&
+		posA.pos.y - posA.size.y / 2 <= posB.pos.y + posB.size.y / 2;
 }
 
 void GameScene::EnemySpawn()

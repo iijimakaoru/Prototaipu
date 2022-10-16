@@ -1,8 +1,8 @@
 #pragma once
+#include "Vector2.h"
+
 struct Transform
 {
-	float x;
-	float y;
-	float width;
-	float height;
+	Vector2 pos;
+	Vector2 size;
 };

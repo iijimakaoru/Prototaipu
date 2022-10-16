@@ -2,9 +2,9 @@
 
 void Player::Init(Stage& stage)
 {
-	transform_.x = stage.GetLeftX() + transform_.width / 2;
-	transform_.y = transform_.height / 2 + 1;
-	transform_.width = transform_.height = 20;
+	transform_.pos.x = stage.GetLeftX() + transform_.size.x / 2;
+	transform_.pos.y = transform_.size.y / 2 + 1;
+	transform_.size.x = transform_.size.y = 20;
 	isChange_ = false;
 	speed_ = 5;
 	speedLevel_ = 1;
@@ -46,13 +46,13 @@ void Player::Update(Stage& stage, Input& input)
 	// ï«ÇíµÇÒÇ≈Ç»Ç¢Ç∆Ç´
 	if (!isChange_)
 	{
-		if (transform_.y - transform_.height / 2 <= 0 ||
-			transform_.y + transform_.height / 2 >= WIN_HEIGHT)
+		if (transform_.pos.y - transform_.size.y / 2 <= 0 ||
+			transform_.pos.y + transform_.size.y / 2 >= WIN_HEIGHT)
 		{
 			moveVec_ *= -1;
 		}
 
-		transform_.y += speed_ * moveVec_;
+		transform_.pos.y += speed_ * moveVec_;
 
 		isAddCount_ = false;
 	}
@@ -61,11 +61,11 @@ void Player::Update(Stage& stage, Input& input)
 	{
 		if (vec_ == Vec::LEFT)
 		{
-			transform_.x += 80;
+			transform_.pos.x += 80;
 		}
 		if (vec_ == Vec::RIGHT)
 		{
-			transform_.x -= 80;
+			transform_.pos.x -= 80;
 		}
 	}
 	// ï«íµÇ—à⁄ÇË
@@ -75,9 +75,9 @@ void Player::Update(Stage& stage, Input& input)
 		isAddCount_ = true;
 	}
 #pragma region ï«ÇÃâüÇµñﬂÇµèàóù
-	if (transform_.x - transform_.width / 2 <= stage.GetLeftX())
+	if (transform_.pos.x - transform_.size.x / 2 <= stage.GetLeftX())
 	{
-		transform_.x = (stage.GetLeftX() + transform_.width / 2) + 1;
+		transform_.pos.x = (stage.GetLeftX() + transform_.size.x / 2) + 1;
 		if (vec_ == Vec::RIGHT)
 		{
 			vec_ = Vec::LEFT;
@@ -85,9 +85,9 @@ void Player::Update(Stage& stage, Input& input)
 		isChange_ = false;
 	}
 
-	if (transform_.x + transform_.width / 2 >= stage.GetRightX())
+	if (transform_.pos.x + transform_.size.x / 2 >= stage.GetRightX())
 	{
-		transform_.x = (stage.GetRightX() - transform_.width / 2) - 1;
+		transform_.pos.x = (stage.GetRightX() - transform_.size.x / 2) - 1;
 		if (vec_ == Vec::LEFT)
 		{
 			vec_ = Vec::RIGHT;
@@ -95,21 +95,21 @@ void Player::Update(Stage& stage, Input& input)
 		isChange_ = false;
 	}
 
-	if (transform_.y - transform_.height / 2 <= 0)
+	if (transform_.pos.y - transform_.size.y / 2 <= 0)
 	{
-		transform_.y = transform_.height / 2;
+		transform_.pos.y = transform_.size.y / 2;
 	}
-	else if (transform_.y + transform_.height / 2 >= WIN_HEIGHT)
+	else if (transform_.pos.y + transform_.size.y / 2 >= WIN_HEIGHT)
 	{
-		transform_.y = WIN_HEIGHT - transform_.height / 2;
+		transform_.pos.y = WIN_HEIGHT - transform_.size.y / 2;
 	}
 #pragma endregion
 }
 
 void Player::Draw()
 {
-	DrawBox(transform_.x - transform_.width / 2, transform_.y - transform_.height / 2,
-		transform_.x + transform_.width / 2, transform_.y + transform_.height / 2,
+	DrawBox(transform_.pos.x - transform_.size.x / 2, transform_.pos.y - transform_.size.y / 2,
+		transform_.pos.x + transform_.size.x / 2, transform_.pos.y + transform_.size.y / 2,
 		GetColor(200, 200, 200), true);
 	DrawFormatString(0, 60, GetColor(255, 255, 255), "%d", levelupCount_);
 	DrawFormatString(0, 80, GetColor(255, 255, 255), "%d", levelDownCount_);

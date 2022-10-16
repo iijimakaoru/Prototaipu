@@ -2,10 +2,10 @@
 
 void Point::Init(int posX)
 {
-	transform_.x = posX;
-	transform_.y = WIN_HEIGHT / 2;
-	transform_.width = 8;
-	transform_.height = WIN_HEIGHT * 1 / 3;
+	transform_.pos.x = posX;
+	transform_.pos.y = WIN_HEIGHT / 2;
+	transform_.size.x = 8;
+	transform_.size.y = WIN_HEIGHT * 1 / 3;
 	popPos_ = 1;
 	popVec_ = 0;
 }
@@ -41,31 +41,31 @@ void Point::Pop()
 	switch (popPos_)
 	{
 	case 0:
-		transform_.y = WIN_HEIGHT * 1 / 6;
+		transform_.pos.y = WIN_HEIGHT * 1 / 6;
 		break;
 	case 1:
-		transform_.y = WIN_HEIGHT * 1 / 2;
+		transform_.pos.y = WIN_HEIGHT * 1 / 2;
 		break;
 	case 2:
-		transform_.y = WIN_HEIGHT * 5 / 6;
+		transform_.pos.y = WIN_HEIGHT * 5 / 6;
 		break;
 	default:
 		break;
 	}
 
-	transform_.height = WIN_HEIGHT * 1 / 3;
+	transform_.size.y = WIN_HEIGHT * 1 / 3;
 }
 
 void Point::FeaverUpdate()
 {
-	transform_.y = WIN_HEIGHT / 2;
-	transform_.height = WIN_HEIGHT;
+	transform_.pos.y = WIN_HEIGHT / 2;
+	transform_.size.y = WIN_HEIGHT;
 }
 
 void Point::Draw()
 {
-	DrawBox(transform_.x - transform_.width / 2, transform_.y - transform_.height / 2,
-		transform_.x + transform_.width / 2, transform_.y + transform_.height / 2,
+	DrawBox(transform_.pos.x - transform_.size.x / 2, transform_.pos.y - transform_.size.y / 2,
+		transform_.pos.x + transform_.size.x / 2, transform_.pos.y + transform_.size.y / 2,
 		GetColor(255, 0, 0), true);
 }
 
