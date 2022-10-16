@@ -2,55 +2,55 @@
 
 void FeaverPoint::Init()
 {
-	transform.x = 114514;
-	transform.width = 8;
-	transform.height = 100;
-	isDead = false;
-	speed = 4;
-	moveVec = 1;
+	transform_.x = 114514;
+	transform_.width = 8;
+	transform_.height = 100;
+	isDead_ = false;
+	speed_ = 4;
+	moveVec_ = 1;
 }
 
 void FeaverPoint::Pop(int posX)
 {
-	transform.x = posX;
-	transform.y = GetRand(WIN_HEIGHT - transform.height) + transform.height / 2;
-	transform.height = 100;
-	isDead = true;
+	transform_.x = posX;
+	transform_.y = GetRand(WIN_HEIGHT - transform_.height) + transform_.height / 2;
+	transform_.height = 100;
+	isDead_ = true;
 }
 
 void FeaverPoint::Update()
 {
-	if (transform.y + transform.height / 2 >= WIN_HEIGHT ||
-		transform.y - transform.height / 2 <= 0)
+	if (transform_.y + transform_.height / 2 >= WIN_HEIGHT ||
+		transform_.y - transform_.height / 2 <= 0)
 	{
-		moveVec *= -1;
+		moveVec_ *= -1;
 	}
 
-	if (transform.y - transform.height / 2 <= 0)
+	if (transform_.y - transform_.height / 2 <= 0)
 	{
-		transform.y = transform.height / 2;
+		transform_.y = transform_.height / 2;
 	}
 
-	if (transform.y + transform.height / 2 >= WIN_HEIGHT)
+	if (transform_.y + transform_.height / 2 >= WIN_HEIGHT)
 	{
-		transform.y = WIN_HEIGHT - transform.height / 2;
+		transform_.y = WIN_HEIGHT - transform_.height / 2;
 	}
 
-	if (transform.height > 0)
+	if (transform_.height > 0)
 	{
-		transform.height -= 0.5f;
+		transform_.height -= 0.5f;
 	}
 
-	transform.y += speed * moveVec;
+	transform_.y += speed_ * moveVec_;
 }
 
 void FeaverPoint::Draw()
 {
 	
-	if (isDead)
+	if (isDead_)
 	{
-		DrawBox(transform.x - transform.width / 2, transform.y - transform.height / 2,
-			transform.x + transform.width / 2, transform.y + transform.height / 2,
+		DrawBox(transform_.x - transform_.width / 2, transform_.y - transform_.height / 2,
+			transform_.x + transform_.width / 2, transform_.y + transform_.height / 2,
 			GetColor(0, 255, 255), true);
 	}
 
@@ -58,7 +58,7 @@ void FeaverPoint::Draw()
 
 void FeaverPoint::Dead()
 {
-	isDead = false;
+	isDead_ = false;
 }
 
 //“¾“_‰ÁŽZ

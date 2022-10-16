@@ -68,5 +68,7 @@ private:
 	int itemPopCount = 0;
 	// “G
 	std::list<std::unique_ptr<Enemy>> enemys_;
+	// 
+	int enemyPopCount_ = 0;
 };
 

@@ -77,6 +77,13 @@ void GameScene::Update()
 				mode = Mode::Feaver;
 			}
 
+			// エネミースポーン
+			if (enemyPopCount_ >= 3)
+			{
+				EnemySpawn();
+				enemyPopCount_ = 0;
+			}
+
 			if (itemPopCount >= 3)
 			{
 				int popVec = GetRand(1);
@@ -189,8 +196,7 @@ void GameScene::AllCollision()
 			{
 				pointManager->OnCollisionFever(*feaverPoint);
 			}
-			// エネミースポーン
-			EnemySpawn();
+			enemyPopCount_++;
 		}
 
 		if (BoxCollision(posA, posC) && player_->IsAddCount())
@@ -210,8 +216,7 @@ void GameScene::AllCollision()
 				pointManager->OnCollisionFever(*feaverPoint);
 				feverCombo++;
 			}
-			// エネミースポーン
-			EnemySpawn();
+			enemyPopCount_++;
 		}
 
 		if (BoxCollision(posA, posD))
