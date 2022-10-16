@@ -4,5 +4,6 @@
 struct Transform
 {
 	Vector2 pos;
-	Vector2 size;
+	int width;
+	int height;
 };

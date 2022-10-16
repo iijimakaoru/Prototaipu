@@ -62,10 +62,10 @@ private:
 	int feaverCount = 0;
 	// フィーバーの時間
 	float feaverTime = 0;
-	// ゲームの時間
+	//// ゲームの時間
 	float gameTimer = 0;
-	// 
-	int itemPopCount = 0;
+	//// 
+	//int itemPopCount = 0;
 	// 敵
 	std::list<std::unique_ptr<Enemy>> enemys_;
 	// 

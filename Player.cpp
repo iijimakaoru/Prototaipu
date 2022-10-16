@@ -2,9 +2,9 @@
 
 void Player::Init(Stage& stage)
 {
-	transform_.pos.x = stage.GetLeftX() + transform_.size.x / 2;
-	transform_.pos.y = transform_.size.y / 2 + 1;
-	transform_.size.x = transform_.size.y = 20;
+	transform_.pos.x = stage.GetLeftX() + transform_.width / 2;
+	transform_.pos.y = transform_.height / 2 + 1;
+	transform_.width = transform_.height = 20;
 	isChange_ = false;
 	speed_ = 5;
 	speedLevel_ = 1;
@@ -15,6 +15,7 @@ void Player::Init(Stage& stage)
 
 void Player::Update(Stage& stage, Input& input)
 {
+	isInpact_ = false;
 	// スピードアップ処理
 	if (levelupCount_ >= 3 && speedLevel_ <= 3)
 	{
@@ -46,15 +47,19 @@ void Player::Update(Stage& stage, Input& input)
 	// 壁を跳んでないとき
 	if (!isChange_)
 	{
-		if (transform_.pos.y - transform_.size.y / 2 <= 0 ||
-			transform_.pos.y + transform_.size.y / 2 >= WIN_HEIGHT)
+		if (transform_.pos.y - transform_.height / 2 <= 0 ||
+			transform_.pos.y + transform_.height / 2 >= WIN_HEIGHT)
 		{
 			moveVec_ *= -1;
 		}
 
-		transform_.pos.y += speed_ * moveVec_;
+		// 壁跳び移り
+		if (input.isTriger(KEY_INPUT_SPACE))
+		{
+			isChange_ = true;
+		}
 
-		isAddCount_ = false;
+		transform_.pos.y += speed_ * moveVec_;
 	}
 	// 壁を跳んでるとき
 	else
@@ -68,48 +73,46 @@ void Player::Update(Stage& stage, Input& input)
 			transform_.pos.x -= 80;
 		}
 	}
-	// 壁跳び移り
-	if (input.isTriger(KEY_INPUT_SPACE) && !isChange_)
-	{
-		isChange_ = true;
-		isAddCount_ = true;
-	}
 #pragma region 壁の押し戻し処理
-	if (transform_.pos.x - transform_.size.x / 2 <= stage.GetLeftX())
+	if (transform_.pos.x - transform_.width / 2 < stage.GetLeftX())
 	{
-		transform_.pos.x = (stage.GetLeftX() + transform_.size.x / 2) + 1;
+		transform_.pos.x = (stage.GetLeftX() + transform_.width / 2);
 		if (vec_ == Vec::RIGHT)
 		{
 			vec_ = Vec::LEFT;
 		}
 		isChange_ = false;
+		// 壁衝突フラグ
+		isInpact_ = true;
 	}
 
-	if (transform_.pos.x + transform_.size.x / 2 >= stage.GetRightX())
+	if (transform_.pos.x + transform_.width / 2 > stage.GetRightX())
 	{
-		transform_.pos.x = (stage.GetRightX() - transform_.size.x / 2) - 1;
+		transform_.pos.x = (stage.GetRightX() - transform_.width / 2);
 		if (vec_ == Vec::LEFT)
 		{
 			vec_ = Vec::RIGHT;
 		}
 		isChange_ = false;
+		// 壁衝突フラグ
+		isInpact_ = true;
 	}
 
-	if (transform_.pos.y - transform_.size.y / 2 <= 0)
+	if (transform_.pos.y - transform_.height / 2 <= 0)
 	{
-		transform_.pos.y = transform_.size.y / 2;
+		transform_.pos.y = transform_.height / 2;
 	}
-	else if (transform_.pos.y + transform_.size.y / 2 >= WIN_HEIGHT)
+	else if (transform_.pos.y + transform_.height / 2 >= WIN_HEIGHT)
 	{
-		transform_.pos.y = WIN_HEIGHT - transform_.size.y / 2;
+		transform_.pos.y = WIN_HEIGHT - transform_.height / 2;
 	}
 #pragma endregion
 }
 
 void Player::Draw()
 {
-	DrawBox(transform_.pos.x - transform_.size.x / 2, transform_.pos.y - transform_.size.y / 2,
-		transform_.pos.x + transform_.size.x / 2, transform_.pos.y + transform_.size.y / 2,
+	DrawBox(transform_.pos.x - transform_.width / 2, transform_.pos.y - transform_.height / 2,
+		transform_.pos.x + transform_.width / 2, transform_.pos.y + transform_.height / 2,
 		GetColor(200, 200, 200), true);
 	DrawFormatString(0, 60, GetColor(255, 255, 255), "%d", levelupCount_);
 	DrawFormatString(0, 80, GetColor(255, 255, 255), "%d", levelDownCount_);

@@ -22,7 +22,7 @@ public:
 	bool IsDead() const { return isDead_; }
 	// “–‚½‚Á‚½‚Æ‚«
 	void OnCollision() { isDead_ = true; }
-	Transform GetTrans() { return transform_; }
+	Transform GetTransform() { return transform_; }
 
 private:
 	// Œ`

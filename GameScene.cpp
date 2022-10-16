@@ -29,8 +29,8 @@ void GameScene::Update()
 	if (scene == Scene::Title)
 	{
 		player_->Init(*stage_);
-		feaverTime = 0;
-		feaverChargeCount = 0;
+		/*feaverTime = 0;
+		feaverChargeCount = 0;*/
 		feaverPoint->Init();
 		gameTimer = 60 * 30;
 		mode = Mode::Normal;
@@ -84,7 +84,7 @@ void GameScene::Update()
 				enemyPopCount_ = 0;
 			}
 
-			if (itemPopCount >= 3)
+			/*if (itemPopCount >= 3)
 			{
 				int popVec = GetRand(1);
 				switch (popVec)
@@ -99,7 +99,7 @@ void GameScene::Update()
 					break;
 				}
 				itemPopCount = 0;
-			}
+			}*/
 		}
 #pragma endregion
 #pragma region フィーバー
@@ -156,11 +156,11 @@ void GameScene::Draw()
 		DrawString(100, 100, "リザルト", GetColor(255, 255, 255), true);
 	}
 	DrawFormatString(0, 0, GetColor(255, 255, 255), "ゲーム時間:%f", gameTimer);
-	DrawFormatString(0, 20, GetColor(255, 255, 255), "フィーバー時間:%f", feaverTime);
-	DrawFormatString(0, 40, GetColor(255, 255, 255), "フィーバーカウント:%d", feaverCount);
+	//DrawFormatString(0, 20, GetColor(255, 255, 255), "フィーバー時間:%f", feaverTime);
+	//DrawFormatString(0, 40, GetColor(255, 255, 255), "フィーバーカウント:%d", feaverCount);
 	DrawFormatString(200, 140, GetColor(255, 255, 255), "コンボ:%d", pointManager->GetCombo());
 	DrawFormatString(0, 120, GetColor(255, 255, 255), "isDead:%d", feaverPoint->IsDead());
-	DrawFormatString(0, 140, GetColor(255, 255, 255), "itemPop:%d", itemPopCount);
+	//DrawFormatString(0, 140, GetColor(255, 255, 255), "itemPop:%d", itemPopCount);
 	//DrawFormatString(200, 200, GetColor(255, 255, 255), "合計:%d", pointManager->GetTotalScore());
 
 	//DrawFormatString(0, 100, GetColor(255, 255, 255), "点数:%d", leftPoint->GetScore());
@@ -178,16 +178,15 @@ void GameScene::AllCollision()
 	posD = feaverPoint->GetTransform();
 
 	int feverCombo = feaverPoint->GetFeverCombo_();
-	if (!player_->GetIsChange())
+	if (player_->IsInpact())
 	{
-		if (BoxCollision(posA, posB) && player_->IsAddCount())
+		if (BoxCollision(posA, posB))
 		{
 			feaverChargeCount++;
 			player_->AddLevelupCount();
 			leftPoint->Pop();
-			itemPopCount++;
+			//itemPopCount++;
 
-			player_->ChangeIsAddCount();
 			if (mode != Mode::Feaver)
 			{
 				pointManager->OnCollisionLeft(*leftPoint);
@@ -199,14 +198,13 @@ void GameScene::AllCollision()
 			enemyPopCount_++;
 		}
 
-		if (BoxCollision(posA, posC) && player_->IsAddCount())
+		if (BoxCollision(posA, posC))
 		{
 			feaverChargeCount++;
 			player_->AddLevelupCount();
 			rightPoint->Pop();
-			itemPopCount++;
+			//itemPopCount++;
 
-			player_->ChangeIsAddCount();
 			if (mode != Mode::Feaver)
 			{
 				pointManager->OnCollisionRight(*rightPoint);
@@ -218,44 +216,47 @@ void GameScene::AllCollision()
 			}
 			enemyPopCount_++;
 		}
-
-		if (BoxCollision(posA, posD))
-		{
-			feaverPoint->Dead();
-		}
-
-		if (!BoxCollision(posA, posB) && !BoxCollision(posA, posC) && !BoxCollision(posA, posD)
-			&& player_->IsAddCount())
-		{
-			player_->AddLevelDownCount();
-			player_->ChangeIsAddCount();
-			pointManager->OnCollisionFailure();
-		}
 	}
+
 	// 敵の当たり判定
 	for (std::unique_ptr<Enemy>& enemy : enemys_)
 	{
-		posE = enemy->GetTrans();
-		if (mode == Mode::Normal)
+		posE = enemy->GetTransform();
+		if (BoxCollision(posA, posE))
 		{
-
-		}
-		else if (mode == Mode::Feaver)
-		{
-			if (BoxCollision(posA, posE))
+			if (mode == Mode::Normal)
 			{
-				enemy->OnCollision();
+
 			}
+			else if (mode == Mode::Feaver)
+			{
+
+			}
+			enemy->OnCollision();
 		}
 	}
 }
 
 bool GameScene::BoxCollision(Transform& posA, Transform& posB)
 {
-	return posA.pos.x - posA.size.x / 2 <= posB.pos.x + posB.pos.x / 2 &&
-		posA.pos.x + posA.size.x / 2 >= posB.pos.x - posB.size.x / 2 &&
-		posA.pos.y + posA.size.y / 2 >= posB.pos.y - posB.size.y / 2 &&
-		posA.pos.y - posA.size.y / 2 <= posB.pos.y + posB.size.y / 2;
+	int a_Left = (int)posA.pos.x - (posA.width / 2);
+	int a_Right = (int)posA.pos.x + (posA.width / 2);
+	int a_Top = (int)posA.pos.y - (posA.height / 2);
+	int a_Bottom = (int)posA.pos.y + (posA.height / 2);
+
+	int b_Left = (int)posB.pos.x - (posB.width / 2);
+	int b_Right = (int)posB.pos.x + (posB.width / 2);
+	int b_Top = (int)posB.pos.y - (posB.height / 2);
+	int b_Bottom = (int)posB.pos.y + (posB.height / 2);
+
+	if (a_Left < b_Right && b_Left < a_Right && a_Top < b_Bottom && b_Top < a_Bottom)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 void GameScene::EnemySpawn()

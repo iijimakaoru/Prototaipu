@@ -64,12 +64,8 @@ public:
 			levelDownCount_++;
 		}
 	}
-	/// <summary>
-	/// 数値変動フラグ
-	/// </summary>
-	/// <returns></returns>
-	bool IsAddCount() { return isAddCount_; }
-	void ChangeIsAddCount() { isAddCount_ = false; }
+
+	bool IsInpact() { return isInpact_; }
 
 private:
 	// 形
@@ -88,7 +84,7 @@ private:
 	int levelupCount_;
 	// レベルダウンまでの回数
 	int levelDownCount_;
-	// 数値変動フラグ
-	bool isAddCount_;
+	// 壁衝突フラグ
+	bool isInpact_;
 };
 
