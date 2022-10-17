@@ -66,7 +66,7 @@ private:
 	//// ƒQ[ƒ€‚ÌŠÔ
 	float gameTimer = 0;
 	//// 
-	//int itemPopCount = 0;
+	int itemPopCount = 0;
 	// “G
 	std::list<std::unique_ptr<Enemy>> enemys_;
 	// 

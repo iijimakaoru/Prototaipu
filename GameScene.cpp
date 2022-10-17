@@ -65,13 +65,13 @@ void GameScene::Update()
 				enemy->Update();
 			}
 
-			if (feaverChargeCount >= 3)
+			/*if (feaverChargeCount >= 3)
 			{
 				feaverCount++;
 				feaverChargeCount = 0;
-			}
+			}*/
 
-			if (feaverCount >= 3)
+			if (feaverCount >= 6)
 			{
 				feaverCount = 0;
 				feaverTime = 60 * 6;
@@ -85,7 +85,7 @@ void GameScene::Update()
 				enemyPopCount_ = 0;
 			}
 
-			/*if (itemPopCount >= 3)
+			if (itemPopCount >= 6)
 			{
 				int popVec = GetRand(1);
 				switch (popVec)
@@ -100,7 +100,7 @@ void GameScene::Update()
 					break;
 				}
 				itemPopCount = 0;
-			}*/
+			}
 		}
 #pragma endregion
 #pragma region フィーバー
@@ -160,8 +160,8 @@ void GameScene::Draw()
 		DrawString(100, 100, "リザルト", GetColor(255, 255, 255), true);
 	}
 	DrawFormatString(0, 0, GetColor(255, 255, 255), "ゲーム時間:%f", gameTimer);
-	//DrawFormatString(0, 20, GetColor(255, 255, 255), "フィーバー時間:%f", feaverTime);
-	//DrawFormatString(0, 40, GetColor(255, 255, 255), "フィーバーカウント:%d", feaverCount);
+	DrawFormatString(0, 20, GetColor(255, 255, 255), "フィーバー時間:%f", feaverTime);
+	DrawFormatString(0, 40, GetColor(255, 255, 255), "フィーバーカウント:%d", feaverCount);
 	DrawFormatString(200, 140, GetColor(255, 255, 255), "コンボ:%d", pointManager->GetCombo());
 	DrawFormatString(0, 120, GetColor(255, 255, 255), "isDead:%d", feaverPoint->IsDead());
 	//DrawFormatString(0, 140, GetColor(255, 255, 255), "itemPop:%d", itemPopCount);
@@ -186,10 +186,10 @@ void GameScene::AllCollision()
 	{
 		if (BoxCollision(posA, posB))
 		{
-			feaverChargeCount++;
+			feaverCount++;
 			player_->AddLevelupCount();
 			leftPoint->Pop();
-			//itemPopCount++;
+			itemPopCount++;
 
 			if (mode != Mode::Feaver)
 			{
@@ -204,10 +204,10 @@ void GameScene::AllCollision()
 
 		if (BoxCollision(posA, posC))
 		{
-			feaverChargeCount++;
+			feaverCount++;
 			player_->AddLevelupCount();
 			rightPoint->Pop();
-			//itemPopCount++;
+			itemPopCount++;
 
 			if (mode != Mode::Feaver)
 			{
@@ -219,6 +219,11 @@ void GameScene::AllCollision()
 				feverCombo++;
 			}
 			enemyPopCount_++;
+		}
+
+		if (BoxCollision(posA, posD))
+		{
+			feaverPoint->Dead();
 		}
 	}
 
@@ -237,6 +242,7 @@ void GameScene::AllCollision()
 
 			}
 			enemy->OnCollision();
+			particleManager_->LeftClash(posE.pos.x, posE.pos.y);
 		}
 	}
 }

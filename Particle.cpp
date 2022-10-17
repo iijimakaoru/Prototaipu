@@ -1,12 +1,13 @@
 #include "Particle.h"
 
-void Particle::Init(const float posX, const float posY, const Vector2& velocity)
+void Particle::Init(const float posX, const float posY, const Vector2& velocity, unsigned int color)
 {
 	transform_.pos.x = posX;
 	transform_.pos.y = posY;
 	transform_.width = 30;
 	transform_.height = 30;
 	moveVec_ = velocity;
+	color_ = color;
 }
 
 void Particle::Update()
@@ -27,5 +28,5 @@ void Particle::Draw()
 {
 	DrawBox(transform_.pos.x - transform_.width / 2, transform_.pos.y - transform_.height / 2,
 		transform_.pos.x + transform_.width / 2, transform_.pos.y + transform_.height / 2,
-		GetColor(200, 200, 200), true);
+		color_, true);
 }

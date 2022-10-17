@@ -119,7 +119,7 @@ void Player::Update(Stage& stage, Input& input, ParticleManager& partManager)
 
 	if (isInpact_)
 	{
-		
+		partManager.LeftClash(transform_.pos.x - transform_.width / 2, transform_.pos.y);
 	}
 }
 

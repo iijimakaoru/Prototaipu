@@ -5,7 +5,7 @@
 class Particle
 {
 public:
-	void Init(const float posX, const float posY, const Vector2& velocity);
+	void Init(const float posX, const float posY, const Vector2& velocity, unsigned int color);
 	void Update();
 	void Draw();
 	bool IsDead() { return isDead_; }
@@ -15,5 +15,6 @@ private:
 	Vector2 speed_;
 	Vector2 moveVec_;
 	bool isDead_;
+	unsigned int color_;
 };
 
