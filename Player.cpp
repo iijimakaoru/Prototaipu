@@ -57,6 +57,15 @@ void Player::Update(Stage& stage, Input& input, ParticleManager& partManager)
 		if (input.isTriger(KEY_INPUT_SPACE))
 		{
 			isChange_ = true;
+			// íµÇ‘ââèo
+			if (vec_ == Vec::LEFT)
+			{
+				partManager.LeftDash(transform_.pos.x - transform_.width / 2, transform_.pos.y);
+			}
+			else if (vec_ == Vec::RIGHT)
+			{
+				partManager.RightDash(transform_.pos.x + transform_.width / 2, transform_.pos.y);
+			}
 		}
 
 		transform_.pos.y += speed_ * moveVec_;
@@ -110,7 +119,7 @@ void Player::Update(Stage& stage, Input& input, ParticleManager& partManager)
 
 	if (isInpact_)
 	{
-		partManager.Dash(transform_.pos);
+		
 	}
 }
 

@@ -1,10 +1,11 @@
 #include "Particle.h"
 
-void Particle::Init(const Vector2& pos, const Vector2& velocity)
+void Particle::Init(const float posX, const float posY, const Vector2& velocity)
 {
-	transform_.pos = pos;
-	transform_.width = 10;
-	transform_.height = 10;
+	transform_.pos.x = posX;
+	transform_.pos.y = posY;
+	transform_.width = 30;
+	transform_.height = 30;
 	moveVec_ = velocity;
 }
 
@@ -12,8 +13,11 @@ void Particle::Update()
 {
 	transform_.pos += moveVec_;
 
-	if (--transform_.width <= 0 &&
-		--transform_.height <= 0)
+	transform_.width--;
+	transform_.height--;
+
+	if (transform_.width <= 0 &&
+		transform_.height <= 0)
 	{
 		isDead_ = true;
 	}

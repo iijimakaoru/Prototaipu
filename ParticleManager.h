@@ -9,7 +9,8 @@ public:
 	void Init();
 	void Update();
 	void Draw();
-	void Dash(const Vector2& pos);
+	void LeftDash(const float posX, const float posY);
+	void RightDash(const float posX, const float posY);
 
 private:
 	std::list<std::unique_ptr<Particle>> particles_;
