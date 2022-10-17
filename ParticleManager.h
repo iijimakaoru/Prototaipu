@@ -10,9 +10,13 @@ public:
 	void Init();
 	void Update();
 	void Draw();
+	// 左壁時のダッシュ
 	void LeftDash(const float posX, const float posY);
+	// 右壁時のダッシュ
 	void RightDash(const float posX, const float posY);
+	// 赤ポイント、敵の撃破演出
 	void Clash(const float posX, const float posY);
+	// フィーバー棒の演出
 	void FeaverClash(const float posX, const float posY);
 
 private:
