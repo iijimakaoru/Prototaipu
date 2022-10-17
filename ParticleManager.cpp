@@ -58,7 +58,7 @@ void ParticleManager::RightDash(const float posX, const float posY)
 	}
 }
 
-void ParticleManager::LeftClash(const float posX, const float posY)
+void ParticleManager::Clash(const float posX, const float posY)
 {
 	unsigned int color = GetColor(255, 0, 0);
 
@@ -80,9 +80,9 @@ void ParticleManager::LeftClash(const float posX, const float posY)
 	}
 }
 
-void ParticleManager::RightClash(const float posX, const float posY)
+void ParticleManager::FeaverClash(const float posX, const float posY)
 {
-	unsigned int color = GetColor(255, 0, 0);
+	unsigned int color = GetColor(255, 255, 0);
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -91,9 +91,9 @@ void ParticleManager::RightClash(const float posX, const float posY)
 		int rand = GetRand(RANDOM_MAX);
 		angle = angleMax * rand / (float)RANDOM_MAX - halfAngle;
 
-		float speed = 8;
+		float speed = 4;
 
-		Vector2 velocity = { speed * cosf(angle), speed * sinf(angle) };
+		Vector2 velocity = { speed * cosf(rand), speed * sinf(rand) };
 
 		std::unique_ptr<Particle> newParticle = std::make_unique<Particle>();
 		newParticle->Init(posX, posY, velocity, color);

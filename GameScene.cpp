@@ -186,7 +186,6 @@ void GameScene::AllCollision()
 	{
 		if (BoxCollision(posA, posB))
 		{
-			feaverCount++;
 			player_->AddLevelupCount();
 			leftPoint->Pop();
 			itemPopCount++;
@@ -200,11 +199,12 @@ void GameScene::AllCollision()
 				pointManager->OnCollisionFever(*feaverPoint);
 			}
 			enemyPopCount_++;
+
+			particleManager_->Clash(posA.pos.x - posA.width / 2, posA.pos.y);
 		}
 
 		if (BoxCollision(posA, posC))
 		{
-			feaverCount++;
 			player_->AddLevelupCount();
 			rightPoint->Pop();
 			itemPopCount++;
@@ -219,11 +219,23 @@ void GameScene::AllCollision()
 				feverCombo++;
 			}
 			enemyPopCount_++;
+
+			particleManager_->Clash(posA.pos.x + posA.width / 2, posA.pos.y);
 		}
 
 		if (BoxCollision(posA, posD))
 		{
+			feaverCount++;
 			feaverPoint->Dead();
+			if (player_->Right())
+			{
+				particleManager_->FeaverClash(posA.pos.x + posA.width / 2, posA.pos.y);
+			}
+
+			if (player_->Left())
+			{
+				particleManager_->FeaverClash(posA.pos.x - posA.width / 2, posA.pos.y);
+			}
 		}
 	}
 
@@ -242,7 +254,7 @@ void GameScene::AllCollision()
 
 			}
 			enemy->OnCollision();
-			particleManager_->LeftClash(posE.pos.x, posE.pos.y);
+			particleManager_->Clash(posE.pos.x, posE.pos.y);
 		}
 	}
 }

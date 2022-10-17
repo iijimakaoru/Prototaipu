@@ -41,19 +41,17 @@ void FeaverPoint::Update()
 		transform_.height -= 0.5f;
 	}
 
-	transform_.pos.y += speed_ * moveVec_;
+	//transform_.pos.y += speed_ * moveVec_;
 }
 
 void FeaverPoint::Draw()
-{
-	
+{	
 	if (isDead_)
 	{
 		DrawBox(transform_.pos.x - transform_.width / 2, transform_.pos.y - transform_.height / 2,
 			transform_.pos.x + transform_.width / 2, transform_.pos.y + transform_.height / 2,
-			GetColor(0, 255, 255), true);
+			GetColor(255, 255, 0), true);
 	}
-
 }
 
 void FeaverPoint::Dead()
