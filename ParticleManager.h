@@ -18,6 +18,8 @@ public:
 	void Clash(const float posX, const float posY);
 	// フィーバー棒の演出
 	void FeaverClash(const float posX, const float posY);
+	// 
+	void Dash(const float posX, const float posY);
 
 private:
 	std::list<std::unique_ptr<Particle>> particles_;
