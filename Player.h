@@ -87,5 +87,12 @@ private:
 	int levelDownCount_;
 	// 壁衝突フラグ
 	bool isInpact_;
+
+	// 点滅用のタイマー
+	int ranpuTimer;
+	bool isFlash;
+
+	unsigned int color;
+
 };
 

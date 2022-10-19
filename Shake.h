@@ -8,6 +8,7 @@ public:
 	void OnCollisionShake();
 	int GetRandX() { return randX; }
 	int GetRandY() { return randY; }
+	int GetisShaking() { return isShaking; }
 
 private:
 
