@@ -2,6 +2,7 @@
 #include <list>
 #include <memory>
 #include "Particle.h"
+#include "SmollParticle.h"
 #include "MyMath.h"
 
 class ParticleManager
@@ -23,6 +24,7 @@ public:
 
 private:
 	std::list<std::unique_ptr<Particle>> particles_;
+	std::list<std::unique_ptr<SmollParticle>> smollParticles_;
 
 	float angleMax;
 	float angle;
