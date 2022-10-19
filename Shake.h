@@ -3,11 +3,11 @@
 class  Shake
 {
 public:
-	 Shake();
-	~ Shake();
-
 	void Init();
 	void Update();
+	void OnCollisionShake();
+	int GetRandX() { return randX; }
+	int GetRandY() { return randY; }
 
 private:
 
@@ -19,18 +19,8 @@ private:
 
 	//シェイクされているかどうか
 	//自機のシェイク
-	int isPlayerShaking = 0;
-	//背景のシェイク
-	int isBackgroundShaking = 0;
+	int isShaking = 0;
 
 };
-
- Shake:: Shake()
-{
-}
-
- Shake::~ Shake()
-{
-}
 
  

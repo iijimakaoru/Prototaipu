@@ -123,11 +123,13 @@ void Player::Update(Stage& stage, Input& input, ParticleManager& partManager)
 	}
 }
 
-void Player::Draw()
+void Player::Draw(int randX,int randY)
 {
-	DrawBox(transform_.pos.x - transform_.width / 2, transform_.pos.y - transform_.height / 2,
-		transform_.pos.x + transform_.width / 2, transform_.pos.y + transform_.height / 2,
+	DrawBox(transform_.pos.x - transform_.width / 2 + randX, transform_.pos.y - transform_.height / 2,
+		transform_.pos.x + transform_.width / 2 + randX, transform_.pos.y + transform_.height / 2 ,
 		GetColor(200, 200, 200), true);
+
+	
 	DrawFormatString(0, 60, GetColor(255, 255, 255), "%d", levelupCount_);
 	DrawFormatString(0, 80, GetColor(255, 255, 255), "%d", levelDownCount_);
 	DrawFormatString(0, 100, GetColor(255, 255, 255), "%d", speedLevel_);

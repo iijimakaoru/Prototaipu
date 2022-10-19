@@ -27,16 +27,16 @@ void Stage::Update()
 	}
 }
 
-void Stage::Draw()
+void Stage::Draw(int randX, int randY)
 {
 	if (isAlive)
 	{
-		DrawLine(leftX_, 0, leftX_, WIN_HEIGHT, GetColor(255, 255, 255), true);
-		DrawLine(rightX_, 0, rightX_, WIN_HEIGHT, GetColor(255, 255, 255), true);
+		DrawLine(leftX_ + randX, 0, leftX_ + randX, WIN_HEIGHT, GetColor(255, 255, 255), true);
+		DrawLine(rightX_ + randX, 0, rightX_ + randX, WIN_HEIGHT, GetColor(255, 255, 255), true);
 		for (int i = 0; i < 2; i++)
 		{
-			DrawLine(sikiriRightX_[i] - 4, sikiriRightY_[i], sikiriRightX_[i] + 4, sikiriRightY_[i], GetColor(255, 255, 255), true);
-			DrawLine(sikiriLeftX_[i] - 4, sikiriLeftY_[i], sikiriLeftX_[i] + 4, sikiriLeftY_[i], GetColor(255, 255, 255), true);
+			DrawLine(sikiriRightX_[i] - 4 + randX, sikiriRightY_[i], sikiriRightX_[i] + 4 + randX, sikiriRightY_[i], GetColor(255, 255, 255), true);
+			DrawLine(sikiriLeftX_[i] - 4 + randX, sikiriLeftY_[i], sikiriLeftX_[i] + 4 + randX, sikiriLeftY_[i], GetColor(255, 255, 255), true);
 		}
 	}
 }

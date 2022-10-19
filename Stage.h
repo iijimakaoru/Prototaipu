@@ -6,9 +6,10 @@ class Stage
 public:
 	void Init();
 	void Update();
-	void Draw();
+	void Draw(int randX, int randY);
 	int GetLeftX() { return leftX_; }
 	int GetRightX() { return rightX_; }
+	int GetStageHP() { return HP; }
 	void Damage() { HP--; }
 	bool IsAlive() 
 	{
@@ -21,7 +22,6 @@ public:
 			return false;
 		}
 	}
-	int StageHP() { return HP; }
 
 private:
 	int leftX_;

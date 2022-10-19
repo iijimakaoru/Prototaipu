@@ -28,7 +28,7 @@ public:
 	/// <summary>
 	/// •`‰æ
 	/// </summary>
-	void Draw();
+	void Draw(int randX, int randY);
 	/// <summary>
 	/// transform‚ÌƒQƒbƒ^[
 	/// </summary>

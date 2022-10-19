@@ -9,6 +9,7 @@
 #include <list>
 #include "Enemy.h"
 #include "ParticleManager.h"
+#include "Shake.h"
 
 class GameScene
 {
@@ -53,6 +54,8 @@ private:
 	std::unique_ptr<PointManager> pointManager = std::make_unique<PointManager>();
 	// キーボード入力
 	std::unique_ptr<Input> input = std::make_unique<Input>();
+	//シェイク
+	std::unique_ptr<Shake> shake_ = std::make_unique<Shake>();
 	// モード
 	Mode mode = Mode::Normal;
 	// シーン
