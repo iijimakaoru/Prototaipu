@@ -62,10 +62,10 @@ void Point::FeaverUpdate()
 	transform_.height = WIN_HEIGHT;
 }
 
-void Point::Draw()
+void Point::Draw(int randX)
 {
-	DrawBox(transform_.pos.x - transform_.width / 2, transform_.pos.y - transform_.height / 2,
-		transform_.pos.x + transform_.width / 2, transform_.pos.y + transform_.height / 2,
+	DrawBox(transform_.pos.x - transform_.width / 2 + randX, transform_.pos.y - transform_.height / 2,
+		transform_.pos.x + transform_.width / 2 + randX, transform_.pos.y + transform_.height / 2,
 		GetColor(255, 0, 0), true);
 }
 

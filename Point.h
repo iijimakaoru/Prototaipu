@@ -9,7 +9,7 @@ public:
 	void Update();
 	void Pop();
 	void FeaverUpdate();
-	void Draw();
+	void Draw(int randX);
 	Transform GetTransform() { return transform_; }
 	int GetScore() { return score_; }
 

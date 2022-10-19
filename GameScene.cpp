@@ -149,8 +149,8 @@ void GameScene::Draw()
 	else if (scene == Scene::Game)
 	{
 		stage_->Draw(shake_->GetRandX(),shake_->GetRandY());
-		leftPoint->Draw();
-		rightPoint->Draw();
+		leftPoint->Draw(shake_->GetRandX());
+		rightPoint->Draw(shake_->GetRandX());
 		feaverPoint->Draw();
 		player_->Draw(shake_->GetRandX(),shake_->GetRandY());
 		pointManager->Draw();
@@ -169,7 +169,7 @@ void GameScene::Draw()
 	DrawFormatString(0, 20, GetColor(255, 255, 255), "フィーバー時間:%f", feaverTime);
 	DrawFormatString(0, 40, GetColor(255, 255, 255), "フィーバーカウント:%d", feaverCount);
 	DrawFormatString(200, 140, GetColor(255, 255, 255), "コンボ:%d", pointManager->GetCombo());
-	DrawFormatString(0, 120, GetColor(255, 255, 255), "stageHP:%d", stage_->GetHP());
+	DrawFormatString(0, 120, GetColor(255, 255, 255), "stageHP:%d", stage_->GetStageHP());
 }
 
 void GameScene::AllCollision()
