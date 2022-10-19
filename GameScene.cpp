@@ -77,7 +77,7 @@ void GameScene::Update()
 				feaverChargeCount = 0;
 			}*/
 
-			if (feaverCount >= 6)
+			if (feaverCount >= 2)
 			{
 				feaverCount = 0;
 				feaverTime = 60 * 6;
@@ -152,7 +152,7 @@ void GameScene::Draw()
 		leftPoint->Draw(shake_->GetRandX());
 		rightPoint->Draw(shake_->GetRandX());
 		feaverPoint->Draw();
-		player_->Draw(shake_->GetRandX(),shake_->GetRandY());
+		player_->Draw(shake_->GetRandX(), shake_->GetisShaking());
 		pointManager->Draw();
 		// “G‚Ì•`‰æ
 		for (std::unique_ptr<Enemy>& enemy : enemys_)

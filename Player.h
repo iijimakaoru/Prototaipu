@@ -28,7 +28,7 @@ public:
 	/// <summary>
 	/// •`‰æ
 	/// </summary>
-	void Draw(int randX, int randY);
+	void Draw(int randX,int isShaking);
 	/// <summary>
 	/// transform‚ÌƒQƒbƒ^[
 	/// </summary>
