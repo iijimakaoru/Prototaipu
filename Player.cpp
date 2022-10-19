@@ -11,6 +11,7 @@ void Player::Init(Stage& stage)
 	levelupCount_ = 0;
 	moveVec_ = 1;
 	levelDownCount_ = 0;
+	vec_ = Vec::LEFT;
 }
 
 void Player::Update(Stage& stage, Input& input, ParticleManager& partManager)
