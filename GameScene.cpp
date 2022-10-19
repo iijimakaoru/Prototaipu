@@ -29,6 +29,7 @@ void GameScene::Update()
 
 	if (scene == Scene::Title)
 	{
+		stage_->Init();
 		player_->Init(*stage_);
 		/*feaverTime = 0;
 		feaverChargeCount = 0;*/
@@ -44,10 +45,13 @@ void GameScene::Update()
 	}
 	else if (scene == Scene::Game)
 	{
-		if (--gameTimer <= 0)
+		if (--gameTimer <= 0 || !stage_->IsAlive())
 		{
 			scene = Scene::Result;
 		}
+		// 
+		stage_->Update();
+		// 
 		player_->Update(*stage_, *input, *particleManager_);
 #pragma region ポイントアップデート
 		leftPoint->Update();
@@ -163,7 +167,7 @@ void GameScene::Draw()
 	DrawFormatString(0, 20, GetColor(255, 255, 255), "フィーバー時間:%f", feaverTime);
 	DrawFormatString(0, 40, GetColor(255, 255, 255), "フィーバーカウント:%d", feaverCount);
 	DrawFormatString(200, 140, GetColor(255, 255, 255), "コンボ:%d", pointManager->GetCombo());
-	DrawFormatString(0, 120, GetColor(255, 255, 255), "isDead:%d", feaverPoint->IsDead());
+	DrawFormatString(0, 120, GetColor(255, 255, 255), "stageHP:%d", stage_->StageHP());
 	//DrawFormatString(0, 140, GetColor(255, 255, 255), "itemPop:%d", itemPopCount);
 	//DrawFormatString(200, 200, GetColor(255, 255, 255), "合計:%d", pointManager->GetTotalScore());
 
@@ -236,6 +240,11 @@ void GameScene::AllCollision()
 			{
 				particleManager_->FeaverClash(posA.pos.x - posA.width / 2, posA.pos.y);
 			}
+		}
+
+		if (!BoxCollision(posA, posB) && !BoxCollision(posA, posC) && !BoxCollision(posA, posD))
+		{
+			stage_->Damage();
 		}
 	}
 
