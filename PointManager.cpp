@@ -43,10 +43,10 @@ void PointManager::Update(Point &leftPoint,Point &rightPoint)
 
 void PointManager::Draw()
 {
-	DrawFormatString(200, 220, GetColor(255, 255, 255), "合計:%d", totalScore_);
+	/*DrawFormatString(200, 220, GetColor(255, 255, 255), "合計:%d", totalScore_);
 	DrawFormatString(200, 180, GetColor(255, 255, 255), "通常スコア:%d", normalScore_);
 	DrawFormatString(200, 160, GetColor(255, 255, 255), "フィーバースコア:%d", feverScore_);
-	DrawFormatString(200, 120, GetColor(255, 255, 255), "フィーバーコンボ:%d", feverCombo_);
+	DrawFormatString(200, 120, GetColor(255, 255, 255), "フィーバーコンボ:%d", feverCombo_);*/
 
 	//DrawGraph(150, 150, scoreGraph, true);
 	/*for (int i = 0; i < 7; i++) {

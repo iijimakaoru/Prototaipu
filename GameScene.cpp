@@ -174,11 +174,11 @@ void GameScene::Draw()
 	{
 		DrawString(100, 100, "リザルト", GetColor(255, 255, 255), true);
 	}
-	DrawFormatString(0, 0, GetColor(255, 255, 255), "ゲーム時間:%f", gameTimer);
-	DrawFormatString(0, 20, GetColor(255, 255, 255), "フィーバー時間:%f", feaverTime);
-	DrawFormatString(0, 40, GetColor(255, 255, 255), "フィーバーカウント:%d", feaverCount);
-	//DrawFormatString(200, 140, GetColor(255, 255, 255), "コンボ:%d", pointManager->GetCombo());
-	DrawFormatString(0, 120, GetColor(255, 255, 255), "stageHP:%d", stage_->GetStageHP());
+	//DrawFormatString(0, 0, GetColor(255, 255, 255), "ゲーム時間:%f", gameTimer);
+	//DrawFormatString(0, 20, GetColor(255, 255, 255), "フィーバー時間:%f", feaverTime);
+	//DrawFormatString(0, 40, GetColor(255, 255, 255), "フィーバーカウント:%d", feaverCount);
+	////DrawFormatString(200, 140, GetColor(255, 255, 255), "コンボ:%d", pointManager->GetCombo());
+	//DrawFormatString(0, 120, GetColor(255, 255, 255), "stageHP:%d", stage_->GetStageHP());
 }
 
 void GameScene::AllCollision()

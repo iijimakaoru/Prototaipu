@@ -164,7 +164,7 @@ void Player::Draw(int randX,int isShaking)
 		transform_.pos.x + transform_.width / 2 + randX, transform_.pos.y + transform_.height / 2 ,
 		color, true);
 	
-	DrawFormatString(0, 60, GetColor(255, 255, 255), "%d", levelupCount_);
+	/*DrawFormatString(0, 60, GetColor(255, 255, 255), "%d", levelupCount_);
 	DrawFormatString(0, 80, GetColor(255, 255, 255), "%d", levelDownCount_);
-	DrawFormatString(0, 100, GetColor(255, 255, 255), "%d", speedLevel_);
+	DrawFormatString(0, 100, GetColor(255, 255, 255), "%d", speedLevel_);*/
 }
