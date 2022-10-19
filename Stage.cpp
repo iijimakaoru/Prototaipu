@@ -13,20 +13,30 @@ void Stage::Init()
 	}
 	sikiriRightY_[0] = sikiriLeftY_[0] = WIN_HEIGHT * 1 / 3;
 	sikiriRightY_[1] = sikiriLeftY_[1] = WIN_HEIGHT * 2 / 3;
+
+	HP = 3;
+
+	isAlive = true;
 }
 
 void Stage::Update()
 {
-
+	if (HP <= 0)
+	{
+		isAlive = false;
+	}
 }
 
 void Stage::Draw()
 {
-	DrawLine(leftX_, 0, leftX_, WIN_HEIGHT, GetColor(255, 255, 255), true);
-	DrawLine(rightX_, 0, rightX_, WIN_HEIGHT, GetColor(255, 255, 255), true);
-	for (int i = 0; i < 2; i++)
+	if (isAlive)
 	{
-		DrawLine(sikiriRightX_[i] - 4, sikiriRightY_[i], sikiriRightX_[i] + 4, sikiriRightY_[i], GetColor(255, 255, 255), true);
-		DrawLine(sikiriLeftX_[i] - 4, sikiriLeftY_[i], sikiriLeftX_[i] + 4, sikiriLeftY_[i], GetColor(255, 255, 255), true);
+		DrawLine(leftX_, 0, leftX_, WIN_HEIGHT, GetColor(255, 255, 255), true);
+		DrawLine(rightX_, 0, rightX_, WIN_HEIGHT, GetColor(255, 255, 255), true);
+		for (int i = 0; i < 2; i++)
+		{
+			DrawLine(sikiriRightX_[i] - 4, sikiriRightY_[i], sikiriRightX_[i] + 4, sikiriRightY_[i], GetColor(255, 255, 255), true);
+			DrawLine(sikiriLeftX_[i] - 4, sikiriLeftY_[i], sikiriLeftX_[i] + 4, sikiriLeftY_[i], GetColor(255, 255, 255), true);
+		}
 	}
 }
