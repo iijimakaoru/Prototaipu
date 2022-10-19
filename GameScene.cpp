@@ -272,9 +272,9 @@ void GameScene::AllCollision()
 			}
 			enemy->OnCollision();
 			particleManager_->Clash(posE.pos.x, posE.pos.y);
+			// –³“GON
+			invisible = true;
 		}
-		// –³“GON
-		invisible = true;
 	}
 }
 
