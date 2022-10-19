@@ -54,11 +54,6 @@ void PointManager::Draw()
 	}*/
 }
 
-void PointManager::Reset()
-{
-	totalScore_ = 0;
-}
-
 void PointManager::SumScore(int scoreA,int scoreB)
 {
 	totalScore_ = scoreA + scoreB;
