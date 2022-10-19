@@ -25,5 +25,5 @@ void Enemy::Draw()
 {
 	DrawBox(transform_.pos.x - transform_.width / 2, transform_.pos.y - transform_.height / 2,
 		transform_.pos.x + transform_.width / 2, transform_.pos.y + transform_.height / 2,
-		GetColor(255, 0, 0), true);
+		GetColor(0, 255, 255), true);
 }

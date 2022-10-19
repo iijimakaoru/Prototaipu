@@ -79,7 +79,7 @@ void ParticleManager::RightDash(const float posX, const float posY)
 
 void ParticleManager::Clash(const float posX, const float posY)
 {
-	unsigned int color = GetColor(255, 0, 0);
+	unsigned int color = GetColor(0, 255, 255);
 
 	for (int i = 0; i < 10; i++)
 	{
