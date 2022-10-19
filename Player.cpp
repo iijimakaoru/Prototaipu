@@ -129,7 +129,6 @@ void Player::Update(Stage& stage, Input& input, ParticleManager& partManager)
 
 void Player::Draw(int randX,int isShaking)
 {
-	
 	if (isShaking == 1)
 	{
 		if (--ranpuTimer < 0)
