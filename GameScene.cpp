@@ -115,6 +115,14 @@ void GameScene::Update()
 			feaverTime--;
 			leftPoint->FeaverUpdate();
 			rightPoint->FeaverUpdate();
+
+			// エネミースポーン
+			if (enemyPopCount_ >= 3)
+			{
+				EnemySpawn();
+				enemyPopCount_ = 0;
+			}
+
 			if (feaverTime <= 0)
 			{
 				leftPoint->Pop();
@@ -142,12 +150,17 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
+	DrawBox(0, 0, WIN_WIDTH, WIN_HEIGHT, GetColor(0, 0, 0), true);
 	if (scene == Scene::Title)
 	{
 		DrawString(100, 100, "タイトル", GetColor(255, 255, 255), true);
 	}
 	else if (scene == Scene::Game)
 	{
+		if (mode == Mode::Feaver)
+		{
+			DrawBox(0, 0, WIN_WIDTH, WIN_HEIGHT, GetColor(100, 100, 0), true);
+		}
 		stage_->Draw(shake_->GetRandX(),shake_->GetRandY());
 		leftPoint->Draw(shake_->GetRandX());
 		rightPoint->Draw(shake_->GetRandX());
