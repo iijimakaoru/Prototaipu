@@ -13,6 +13,8 @@ void Player::Init(Stage& stage)
 	levelDownCount_ = 0;
 	vec_ = Vec::LEFT;
 	ranpuTimer = 30;
+	isFlash = 0;
+	ranpuTimer = 10;
 }
 
 void Player::Update(Stage& stage, Input& input, ParticleManager& partManager)
@@ -135,13 +137,15 @@ void Player::Draw(int randX,int isShaking)
 			if (isFlash == 0)
 			{
 				isFlash = 1;
+				ranpuTimer = 15;
 			}
 			else if(isFlash == 1)
 			{
 				isFlash = 0;
+				ranpuTimer = 20;
 			}
 			
-			ranpuTimer = 30;
+			
 		}
 
 		if (isFlash == 1)
