@@ -21,7 +21,7 @@ public:
 			return false;
 		}
 	}
-	int StageHP() { return HP; }
+	int GetHP() { return HP; }
 
 private:
 	int leftX_;

@@ -167,13 +167,7 @@ void GameScene::Draw()
 	DrawFormatString(0, 20, GetColor(255, 255, 255), "フィーバー時間:%f", feaverTime);
 	DrawFormatString(0, 40, GetColor(255, 255, 255), "フィーバーカウント:%d", feaverCount);
 	DrawFormatString(200, 140, GetColor(255, 255, 255), "コンボ:%d", pointManager->GetCombo());
-	DrawFormatString(0, 120, GetColor(255, 255, 255), "stageHP:%d", stage_->StageHP());
-	//DrawFormatString(0, 140, GetColor(255, 255, 255), "itemPop:%d", itemPopCount);
-	//DrawFormatString(200, 200, GetColor(255, 255, 255), "合計:%d", pointManager->GetTotalScore());
-
-	//DrawFormatString(0, 100, GetColor(255, 255, 255), "点数:%d", leftPoint->GetScore());
-	//DrawFormatString(0, 120, GetColor(255, 255, 255), "点数:%d", rightPoint->GetScore());
-
+	DrawFormatString(0, 120, GetColor(255, 255, 255), "stageHP:%d", stage_->GetHP());
 }
 
 void GameScene::AllCollision()
