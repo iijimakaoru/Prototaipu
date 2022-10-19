@@ -5,7 +5,7 @@ void Shake::Init()
 {
 	randX = 0;
 	randY = 0;
-	randTimePlayer = 30;
+	randTimePlayer = 10;
 	randTimeBackground = 30;
 	isShaking = 0;
 }
@@ -24,15 +24,15 @@ void Shake::Update()
 		//乱数タイマーを使い、タイマーの変数が減るごとに乱数を取得
 		randTimePlayer--;
 
-		if (randTimePlayer <= 30)
+		if (randTimePlayer <= 10)
 		{
-			randX = GetRand(10) - 5;
-			randY = GetRand(10) - 5;
+			randX = GetRand(3) - 1;
+			randY = GetRand(3) - 1;
 
 			//タイマーが0になったらシェイクフラグと乱数タイマーをリセットする。
 			if (randTimePlayer < 0)
 			{
-				randTimePlayer = 30;
+				randTimePlayer = 10;
 				isShaking = 0;
 			}
 		}
