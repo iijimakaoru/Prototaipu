@@ -115,6 +115,14 @@ void GameScene::Update()
 			feaverTime--;
 			leftPoint->FeaverUpdate();
 			rightPoint->FeaverUpdate();
+
+			// エネミースポーン
+			if (enemyPopCount_ >= 3)
+			{
+				EnemySpawn();
+				enemyPopCount_ = 0;
+			}
+
 			if (feaverTime <= 0)
 			{
 				leftPoint->Pop();
