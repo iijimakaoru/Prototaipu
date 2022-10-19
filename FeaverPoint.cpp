@@ -38,7 +38,7 @@ void FeaverPoint::Update()
 	// ¬‚³‚­‚È‚éˆ—
 	if (transform_.height > 0)
 	{
-		transform_.height -= 0.2f;
+		transform_.height -= 0.02f;
 	}
 
 	//transform_.pos.y += speed_ * moveVec_;
