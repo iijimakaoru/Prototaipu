@@ -2,7 +2,23 @@
 
 void PointManager::Init()
 {
+	//コンボ数
+	combo_ = 0;
+	//フィーバーコンボ
+	feverCombo_ = 0;
+
+	//左スコア
+	leftScore_ = 0;
+	//右スコア
+	rightScore_ = 0;
+
+	//通常スコア
+	normalScore_ = 0;
+	//フィーバー得点
+	feverScore_ = 0;
+	//総得点
 	totalScore_ = 0;
+
 	scoreGraph = LoadGraph("resouce\\score.png");
 }
 

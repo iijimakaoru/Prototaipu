@@ -2,6 +2,7 @@
 
 void ParticleManager::Init()
 {
+
 }
 
 void ParticleManager::Update()

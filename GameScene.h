@@ -76,5 +76,6 @@ private:
 	int enemyPopCount_ = 0;
 	// 
 	std::unique_ptr<ParticleManager> particleManager_ = std::make_unique<ParticleManager>();
+
 };
 

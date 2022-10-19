@@ -144,15 +144,13 @@ void Player::Draw(int randX,int isShaking)
 				isFlash = 0;
 				ranpuTimer = 20;
 			}
-			
-			
 		}
 
 		if (isFlash == 1)
 		{
 			color = GetColor(200, 200, 200);
 		}
-		else
+		else if(isFlash == 0)
 		{
 			color = GetColor(200, 0, 0);
 		}
