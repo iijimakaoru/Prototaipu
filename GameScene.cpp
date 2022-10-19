@@ -150,12 +150,17 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
+	DrawBox(0, 0, WIN_WIDTH, WIN_HEIGHT, GetColor(0, 0, 0), true);
 	if (scene == Scene::Title)
 	{
 		DrawString(100, 100, "ƒ^ƒCƒgƒ‹", GetColor(255, 255, 255), true);
 	}
 	else if (scene == Scene::Game)
 	{
+		if (mode == Mode::Feaver)
+		{
+			DrawBox(0, 0, WIN_WIDTH, WIN_HEIGHT, GetColor(100, 100, 0), true);
+		}
 		stage_->Draw(shake_->GetRandX(),shake_->GetRandY());
 		leftPoint->Draw(shake_->GetRandX());
 		rightPoint->Draw(shake_->GetRandX());
