@@ -46,10 +46,6 @@ void GameScene::Update()
 	}
 	else if (scene == Scene::Game)
 	{
-		if (--gameTimer <= 0 || !stage_->IsAlive())
-		{
-			scene = Scene::Result;
-		}
 		// 
 		stage_->Update();
 		shake_->Update();
@@ -65,17 +61,14 @@ void GameScene::Update()
 #pragma region ノーマル
 		if (mode == Mode::Normal)
 		{
+			// 
+			gameTimer--;
+
 			// 敵の動き
 			for (std::unique_ptr<Enemy>& enemy : enemys_)
 			{
 				enemy->Update();
 			}
-
-			/*if (feaverChargeCount >= 3)
-			{
-				feaverCount++;
-				feaverChargeCount = 0;
-			}*/
 
 			if (feaverCount >= 2)
 			{
@@ -113,8 +106,6 @@ void GameScene::Update()
 		else if (mode == Mode::Feaver)
 		{
 			feaverTime--;
-			leftPoint->FeaverUpdate();
-			rightPoint->FeaverUpdate();
 
 			// エネミースポーン
 			if (enemyPopCount_ >= 3)
@@ -135,6 +126,11 @@ void GameScene::Update()
 #pragma endregion
 
 		feaverPoint->Update();
+
+		if (gameTimer <= 0 || !stage_->IsAlive())
+		{
+			scene = Scene::Result;
+		}
 	}
 	else if (scene == Scene::Result)
 	{

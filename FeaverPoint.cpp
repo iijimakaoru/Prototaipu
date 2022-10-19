@@ -5,7 +5,7 @@ void FeaverPoint::Init()
 	transform_.pos.x = 114514;
 	transform_.width = 8;
 	transform_.height = 100;
-	isDead_ = false;
+	isArive_ = false;
 	speed_ = 4;
 	moveVec_ = 1;
 }
@@ -15,11 +15,16 @@ void FeaverPoint::Pop(int posX)
 	transform_.pos.x = posX;
 	transform_.pos.y = GetRand(WIN_HEIGHT - transform_.height) + transform_.height / 2;
 	transform_.height = 100;
-	isDead_ = true;
+	isArive_ = true;
 }
 
 void FeaverPoint::Update()
 {
+	if (!isArive_)
+	{
+		transform_.pos.x = -114514;
+	}
+
 	if (transform_.pos.y + transform_.height / 2 >= WIN_HEIGHT ||
 		transform_.pos.y - transform_.height / 2 <= 0)
 	{
@@ -38,7 +43,11 @@ void FeaverPoint::Update()
 	// ¬‚³‚­‚È‚éˆ—
 	if (transform_.height > 0)
 	{
-		transform_.height -= 0.02f;
+		transform_.height -= 0.01f;
+	}
+	else
+	{
+		isArive_ = false;
 	}
 
 	//transform_.pos.y += speed_ * moveVec_;
@@ -46,7 +55,7 @@ void FeaverPoint::Update()
 
 void FeaverPoint::Draw()
 {	
-	if (isDead_)
+	if (isArive_)
 	{
 		DrawBox(transform_.pos.x - transform_.width / 2, transform_.pos.y - transform_.height / 2,
 			transform_.pos.x + transform_.width / 2, transform_.pos.y + transform_.height / 2,
@@ -56,7 +65,7 @@ void FeaverPoint::Draw()
 
 void FeaverPoint::Dead()
 {
-	isDead_ = false;
+	isArive_ = false;
 }
 
 //“¾“_‰ÁŽZ
