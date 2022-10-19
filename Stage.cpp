@@ -17,7 +17,7 @@ void Stage::Init()
 
 void Stage::Update()
 {
-
+	isBackgroundShaking = 1;
 }
 
 void Stage::Draw()

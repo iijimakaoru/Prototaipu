@@ -17,5 +17,9 @@ private:
 	float sikiriRightY_[2];
 	float sikiriLeftX_[2];
 	float sikiriLeftY_[2];
+
+	//シェイクされているかどうか
+	//背景のシェイク
+	int isBackgroundShaking = 0;
 };
 

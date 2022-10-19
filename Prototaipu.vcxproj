@@ -138,6 +138,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="PointManager.cpp" />
+    <ClCompile Include="Shake.cpp" />
     <ClCompile Include="SmollParticle.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Vector2.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="PointManager.h" />
+    <ClInclude Include="Shake.h" />
     <ClInclude Include="SmollParticle.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Struct.h" />
