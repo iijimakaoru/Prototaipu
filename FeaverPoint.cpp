@@ -16,6 +16,7 @@ void FeaverPoint::Pop(int posX)
 	transform_.pos.y = GetRand(WIN_HEIGHT - transform_.height) + transform_.height / 2;
 	transform_.height = 100;
 	isArive_ = true;
+	smollTimer = 0;
 }
 
 void FeaverPoint::Update()
@@ -43,7 +44,10 @@ void FeaverPoint::Update()
 	// ¬‚³‚­‚È‚éˆ—
 	if (transform_.height > 0)
 	{
-		transform_.height -= 0.01f;
+		if (++smollTimer > 60)
+		{
+			transform_.height -= 0.02f;
+		}
 	}
 	else
 	{

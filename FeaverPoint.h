@@ -27,5 +27,8 @@ private:
 	const int scoreNum_ = 50;
 	//フィーバーの得点
 	int score_;
+
+	// 
+	float smollTimer;
 };
 
