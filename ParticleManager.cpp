@@ -133,3 +133,25 @@ void ParticleManager::Dash(const float posX, const float posY)
 
 	particles_.push_back(std::move(newParticle));
 }
+
+void ParticleManager::EnemysAndWall(const float posX, const float posY)
+{
+	unsigned int color = GetColor(255, 255, 255);
+
+	for (int i = 0; i < 10; i++)
+	{
+		angleMax = MyMath::PI / 6.0f;
+		float halfAngle = angleMax / 2.0f;
+		int rand = GetRand(RANDOM_MAX);
+		angle = angleMax * rand / (float)RANDOM_MAX - halfAngle;
+
+		float speed = 8;
+
+		Vector2 velocity = { speed * cosf(rand), speed * sinf(rand) };
+
+		std::unique_ptr<Particle> newParticle = std::make_unique<Particle>();
+		newParticle->Init(posX, posY, velocity, color);
+
+		particles_.push_back(std::move(newParticle));
+	}
+}

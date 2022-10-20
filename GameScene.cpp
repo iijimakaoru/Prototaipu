@@ -273,10 +273,19 @@ void GameScene::AllCollision()
 			shake_->OnCollisionShake();
 			stage_->Damage();
 		}
-		else if (!BoxCollision(posA, posB) && !BoxCollision(posA, posC) && !BoxCollision(posA, posD) && invisible)
+		else if (!BoxCollision(posA, posB) && !BoxCollision(posA, posC) && !BoxCollision(posA, posD) &&
+			invisible && enemysDead)
+		{
+			invisible = false;
+			particleManager_->EnemysAndWall(posA.pos.x, posA.pos.y);
+		}
+		else if (!BoxCollision(posA, posB) && !BoxCollision(posA, posC) && !BoxCollision(posA, posD) &&
+			invisible)
 		{
 			invisible = false;
 		}
+
+		enemysDead = false;
 	}
 
 	// “G‚Ì“–‚½‚è”»’è
@@ -295,8 +304,7 @@ void GameScene::AllCollision()
 			}
 			enemy->OnCollision();
 			particleManager_->Clash(posE.pos.x, posE.pos.y);
-			// –³“GOFF
-			invisible = false;
+			enemysDead = true;
 		}
 	}
 }

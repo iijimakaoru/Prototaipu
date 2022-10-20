@@ -22,6 +22,8 @@ public:
 	// 
 	void Dash(const float posX, const float posY);
 
+	void EnemysAndWall(const float posX, const float posY);
+
 private:
 	std::list<std::unique_ptr<Particle>> particles_;
 	std::list<std::unique_ptr<SmollParticle>> smollParticles_;
