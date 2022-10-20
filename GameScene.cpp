@@ -155,11 +155,20 @@ void GameScene::Draw()
 		{
 			DrawBox(0, 0, WIN_WIDTH, WIN_HEIGHT, GetColor(100, 100, 0), true);
 		}
+
 		stage_->Draw(shake_->GetRandX(),shake_->GetRandY());
+
 		leftPoint->Draw(shake_->GetRandX());
 		rightPoint->Draw(shake_->GetRandX());
 		feaverPoint->Draw();
+
 		player_->Draw(shake_->GetRandX(), shake_->GetisShaking());
+		if (invisible)
+		{
+			DrawCircle(player_->GetTransform().pos.x, player_->GetTransform().pos.y, player_->GetTransform().width + 2,
+				GetColor(255, 255, 255), false);
+		}
+
 		pointManager->Draw();
 		// “G‚Ì•`‰æ
 		for (std::unique_ptr<Enemy>& enemy : enemys_)
@@ -208,6 +217,9 @@ void GameScene::AllCollision()
 			enemyPopCount_++;
 
 			particleManager_->Clash(posA.pos.x - posA.width / 2, posA.pos.y);
+
+			// –³“GON
+			invisible = true;
 		}
 
 		if (BoxCollision(posA, posC))
@@ -228,9 +240,12 @@ void GameScene::AllCollision()
 			enemyPopCount_++;
 
 			particleManager_->Clash(posA.pos.x + posA.width / 2, posA.pos.y);
+
+			// –³“GON
+			invisible = true;
 		}
 
-		if (BoxCollision(posA, posD))
+		/*if (BoxCollision(posA, posD))
 		{
 			feaverCount++;
 			feaverPoint->Dead();
@@ -243,15 +258,17 @@ void GameScene::AllCollision()
 			{
 				particleManager_->FeaverClash(posA.pos.x - posA.width / 2, posA.pos.y);
 			}
-		}
+		}*/
 
 		if (!BoxCollision(posA, posB) && !BoxCollision(posA, posC) && !BoxCollision(posA, posD) && !invisible)
 		{
 			shake_->OnCollisionShake();
 			stage_->Damage();
 		}
-		// –³“GOFF
-		invisible = false;
+		else if (!BoxCollision(posA, posB) && !BoxCollision(posA, posC) && !BoxCollision(posA, posD) && invisible)
+		{
+			invisible = false;
+		}
 	}
 
 	// “G‚Ì“–‚½‚è”»’è
@@ -270,8 +287,8 @@ void GameScene::AllCollision()
 			}
 			enemy->OnCollision();
 			particleManager_->Clash(posE.pos.x, posE.pos.y);
-			// –³“GON
-			invisible = true;
+			// –³“GOFF
+			invisible = false;
 		}
 	}
 }
