@@ -23,6 +23,7 @@ void Bom::Draw()
 {
 	if (isAlive)
 	{
-		DrawCircle(transform.pos.x, transform.pos.y, transform.width, GetColor(255, 255, 255), false);
+		DrawCircle(transform.pos.x, transform.pos.y, transform.width,
+			GetColor(255, 255, 0), false);
 	}
 }
