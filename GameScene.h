@@ -83,5 +83,7 @@ private:
 	std::unique_ptr<Bom> bom_ = std::make_unique<Bom>();
 
 	bool enemysDead;
+
+
 };
 

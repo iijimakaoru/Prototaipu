@@ -208,51 +208,82 @@ void GameScene::AllCollision()
 	int feverCombo = feaverPoint->GetFeverCombo_();
 	if (player_->IsInpact())
 	{
+		// 左壁ポイント
 		if (BoxCollision(posA, posB))
 		{
-			player_->AddLevelupCount();
-			leftPoint->Pop();
-			itemPopCount++;
-
-			if (mode != Mode::Feaver)
+			if (!enemysDead)
 			{
-				pointManager->OnCollisionLeft(*leftPoint);
+				player_->AddLevelupCount();
+				leftPoint->Pop();
+				itemPopCount++;
+
+				if (mode != Mode::Feaver)
+				{
+					pointManager->OnCollisionLeft(*leftPoint);
+				}
+				if (mode == Mode::Feaver)
+				{
+					pointManager->OnCollisionFever(*feaverPoint);
+				}
+				enemyPopCount_++;
+
+				particleManager_->Clash(posA.pos.x - posA.width / 2, posA.pos.y);
+
+				// 無敵ON
+				invisible = true;
 			}
-			if (mode == Mode::Feaver)
+			else
 			{
-				pointManager->OnCollisionFever(*feaverPoint);
+				leftPoint->Pop();
+				itemPopCount++;
+
+				enemyPopCount_++;
+
+				particleManager_->RargeEfect(posA.pos.x, posA.pos.y);
+
+				// 無敵ON
+				invisible = true;
 			}
-			enemyPopCount_++;
-
-			particleManager_->Clash(posA.pos.x - posA.width / 2, posA.pos.y);
-
-			// 無敵ON
-			invisible = true;
 		}
-
+		// 右壁ポイント
 		if (BoxCollision(posA, posC))
 		{
-			player_->AddLevelupCount();
-			rightPoint->Pop();
-			itemPopCount++;
-
-			if (mode != Mode::Feaver)
+			if (!enemysDead)
 			{
-				pointManager->OnCollisionRight(*rightPoint);
+				player_->AddLevelupCount();
+				rightPoint->Pop();
+				itemPopCount++;
+
+				if (mode != Mode::Feaver)
+				{
+					pointManager->OnCollisionRight(*rightPoint);
+				}
+				if (mode == Mode::Feaver)
+				{
+					pointManager->OnCollisionFever(*feaverPoint);
+					feverCombo++;
+				}
+				enemyPopCount_++;
+
+				particleManager_->Clash(posA.pos.x + posA.width / 2, posA.pos.y);
+
+				// 無敵ON
+				invisible = true;
 			}
-			if (mode == Mode::Feaver)
+			else
 			{
-				pointManager->OnCollisionFever(*feaverPoint);
-				feverCombo++;
+				rightPoint->Pop();
+				itemPopCount++;
+
+				enemyPopCount_++;
+
+				particleManager_->RargeEfect(posA.pos.x, posA.pos.y);
+
+				// 無敵ON
+				invisible = true;
 			}
-			enemyPopCount_++;
-
-			particleManager_->Clash(posA.pos.x + posA.width / 2, posA.pos.y);
-
-			// 無敵ON
-			invisible = true;
 		}
-
+		// フィーバーポイント
 		if (BoxCollision(posA, posD))
 		{
 			feaverCount++;
@@ -267,18 +298,21 @@ void GameScene::AllCollision()
 				particleManager_->FeaverClash(posA.pos.x - posA.width / 2, posA.pos.y);
 			}
 		}
-
+		// 無色床での処理
+		// バリア無し
 		if (!BoxCollision(posA, posB) && !BoxCollision(posA, posC) && !BoxCollision(posA, posD) && !invisible)
 		{
 			shake_->OnCollisionShake();
 			stage_->Damage();
 		}
+		// 敵撃破
 		else if (!BoxCollision(posA, posB) && !BoxCollision(posA, posC) && !BoxCollision(posA, posD) &&
-			invisible && enemysDead)
+			enemysDead)
 		{
 			invisible = false;
 			particleManager_->EnemysAndWall(posA.pos.x, posA.pos.y);
 		}
+		// バリア有り
 		else if (!BoxCollision(posA, posB) && !BoxCollision(posA, posC) && !BoxCollision(posA, posD) &&
 			invisible)
 		{
