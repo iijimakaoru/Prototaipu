@@ -279,26 +279,26 @@ void GameScene::AllCollision()
 		}
 	}
 
-	//// “G‚Ì“–‚½‚è”»’è
-	//for (std::unique_ptr<Enemy>& enemy : enemys_)
-	//{
-	//	posE = enemy->GetTransform();
-	//	if (BoxCollision(posA, posE))
-	//	{
-	//		if (mode == Mode::Normal)
-	//		{
+	// “G‚Ì“–‚½‚è”»’è
+	for (std::unique_ptr<Enemy>& enemy : enemys_)
+	{
+		posE = enemy->GetTransform();
+		if (BoxCollision(posA, posE))
+		{
+			if (mode == Mode::Normal)
+			{
 
-	//		}
-	//		else if (mode == Mode::Feaver)
-	//		{
+			}
+			else if (mode == Mode::Feaver)
+			{
 
-	//		}
-	//		enemy->OnCollision();
-	//		particleManager_->Clash(posE.pos.x, posE.pos.y);
-	//		// –³“GOFF
-	//		invisible = false;
-	//	}
-	//}
+			}
+			enemy->OnCollision();
+			particleManager_->Clash(posE.pos.x, posE.pos.y);
+			// –³“GOFF
+			invisible = false;
+		}
+	}
 }
 
 bool GameScene::BoxCollision(Transform& posA, Transform& posB)
