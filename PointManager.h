@@ -23,8 +23,10 @@ public:
 
 private:
 
-	std::unique_ptr<Point> point_ = std::make_unique<Point>();
+	//std::unique_ptr<Point> point_ = std::make_unique<Point>();
 	//std::unique_ptr<FeaverPoint> feverPoint_ = std::make_unique<FeaverPoint>();
+	//’e
+	//std::list<std::unique_ptr<PlayerBullet>> bullets_;
 
 	//“¾“_‚ÌˆÊ’u
 	float numPosX;
