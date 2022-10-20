@@ -116,8 +116,6 @@ void GameScene::Update()
 
 			if (feaverTime <= 0)
 			{
-				leftPoint->Pop();
-				rightPoint->Pop();
 				feaverCount = 0;
 				feaverChargeCount = 0;
 				mode = Mode::Normal;
