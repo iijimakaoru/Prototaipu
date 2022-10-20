@@ -73,9 +73,15 @@ void GameScene::Update()
 			if (feaverCount >= 2)
 			{
 				feaverCount = 0;
-				feaverTime = 60 * 6;
-				mode = Mode::Feaver;
+				bom_->Init();
+				for (std::unique_ptr<Enemy>& enemy : enemys_)
+				{
+					enemy->OnCollision();
+					particleManager_->Clash(enemy->GetTransform().pos.x, enemy->GetTransform().pos.y);
+				}
 			}
+
+			bom_->Update();
 
 			// エネミースポーン
 			if (enemyPopCount_ >= 3)
@@ -103,24 +109,24 @@ void GameScene::Update()
 		}
 #pragma endregion
 #pragma region フィーバー
-		else if (mode == Mode::Feaver)
-		{
-			feaverTime--;
+		//else if (mode == Mode::Feaver)
+		//{
+		//	feaverTime--;
 
-			// エネミースポーン
-			if (enemyPopCount_ >= 3)
-			{
-				EnemySpawn();
-				enemyPopCount_ = 0;
-			}
+		//	// エネミースポーン
+		//	if (enemyPopCount_ >= 3)
+		//	{
+		//		EnemySpawn();
+		//		enemyPopCount_ = 0;
+		//	}
 
-			if (feaverTime <= 0)
-			{
-				feaverCount = 0;
-				feaverChargeCount = 0;
-				mode = Mode::Normal;
-			}
-		}
+		//	if (feaverTime <= 0)
+		//	{
+		//		feaverCount = 0;
+		//		feaverChargeCount = 0;
+		//		mode = Mode::Normal;
+		//	}
+		//}
 #pragma endregion
 
 		feaverPoint->Update();
@@ -176,6 +182,8 @@ void GameScene::Draw()
 			enemy->Draw();
 		}
 		particleManager_->Draw();
+
+		bom_->Draw();
 	}
 	else if (scene == Scene::Result)
 	{
@@ -214,7 +222,7 @@ void GameScene::AllCollision()
 			{
 				pointManager->OnCollisionFever(*feaverPoint);
 			}
-			//enemyPopCount_++;
+			enemyPopCount_++;
 
 			particleManager_->Clash(posA.pos.x - posA.width / 2, posA.pos.y);
 
@@ -237,7 +245,7 @@ void GameScene::AllCollision()
 				pointManager->OnCollisionFever(*feaverPoint);
 				feverCombo++;
 			}
-			//enemyPopCount_++;
+			enemyPopCount_++;
 
 			particleManager_->Clash(posA.pos.x + posA.width / 2, posA.pos.y);
 
@@ -245,7 +253,7 @@ void GameScene::AllCollision()
 			invisible = true;
 		}
 
-		/*if (BoxCollision(posA, posD))
+		if (BoxCollision(posA, posD))
 		{
 			feaverCount++;
 			feaverPoint->Dead();
@@ -258,39 +266,47 @@ void GameScene::AllCollision()
 			{
 				particleManager_->FeaverClash(posA.pos.x - posA.width / 2, posA.pos.y);
 			}
-		}*/
+		}
 
 		if (!BoxCollision(posA, posB) && !BoxCollision(posA, posC) && !BoxCollision(posA, posD) && !invisible)
 		{
 			shake_->OnCollisionShake();
 			stage_->Damage();
 		}
-		else if (!BoxCollision(posA, posB) && !BoxCollision(posA, posC) && !BoxCollision(posA, posD) && invisible)
+		else if (!BoxCollision(posA, posB) && !BoxCollision(posA, posC) && !BoxCollision(posA, posD) &&
+			invisible && enemysDead)
+		{
+			invisible = false;
+			particleManager_->EnemysAndWall(posA.pos.x, posA.pos.y);
+		}
+		else if (!BoxCollision(posA, posB) && !BoxCollision(posA, posC) && !BoxCollision(posA, posD) &&
+			invisible)
 		{
 			invisible = false;
 		}
+
+		enemysDead = false;
 	}
 
-	//// 敵の当たり判定
-	//for (std::unique_ptr<Enemy>& enemy : enemys_)
-	//{
-	//	posE = enemy->GetTransform();
-	//	if (BoxCollision(posA, posE))
-	//	{
-	//		if (mode == Mode::Normal)
-	//		{
+	// 敵の当たり判定
+	for (std::unique_ptr<Enemy>& enemy : enemys_)
+	{
+		posE = enemy->GetTransform();
+		if (BoxCollision(posA, posE))
+		{
+			if (mode == Mode::Normal)
+			{
 
-	//		}
-	//		else if (mode == Mode::Feaver)
-	//		{
+			}
+			else if (mode == Mode::Feaver)
+			{
 
-	//		}
-	//		enemy->OnCollision();
-	//		particleManager_->Clash(posE.pos.x, posE.pos.y);
-	//		// 無敵OFF
-	//		invisible = false;
-	//	}
-	//}
+			}
+			enemy->OnCollision();
+			particleManager_->Clash(posE.pos.x, posE.pos.y);
+			enemysDead = true;
+		}
+	}
 }
 
 bool GameScene::BoxCollision(Transform& posA, Transform& posB)

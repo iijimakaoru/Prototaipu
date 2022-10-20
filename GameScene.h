@@ -10,6 +10,7 @@
 #include "Enemy.h"
 #include "ParticleManager.h"
 #include "Shake.h"
+#include "Bom.h"
 
 class GameScene
 {
@@ -78,5 +79,9 @@ private:
 	std::unique_ptr<ParticleManager> particleManager_ = std::make_unique<ParticleManager>();
 	// –³“G
 	bool invisible;
+
+	std::unique_ptr<Bom> bom_ = std::make_unique<Bom>();
+
+	bool enemysDead;
 };
 
